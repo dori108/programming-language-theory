@@ -3,7 +3,8 @@ include <stdio.h>
 int main(){
 
 printf("hello world!");
-printf("pull request");
+printf("pull request"); // 수정 1
+printf("pull request 2") // 수정 2
 
 return 0;
 }
