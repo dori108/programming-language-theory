@@ -1,0 +1,52 @@
+#include <stdio.h>
+#define MAX_STUDENTS 1000
+
+void input_array_a(int a[],int num_a){
+	/* Take input of scores into <a> for <n> students*/
+	for(int i =0; i<num_a; i++){
+		scanf("%d",&a[i]);
+	}
+}
+
+void input_array_b(int b[],int num_b){
+	for(int i =0; i<num_b; i++){
+		scanf("%d",&b[i]);
+	}
+}
+
+int uni(int a[], int b[], int num_a, int num_b){
+	int arr_uni[MAX_STUDENTS]={0};
+	//arr_uni에 모든 값 넣기 
+	// 정렬하기
+	// 중복되는 수 지우기
+}
+
+int inter(int a[], int b[], int num_a, int num_b){
+	int arr_inter[MAX_STUDENTS]={0};
+	for(int i =0; i<num_a;i++){
+		for(int j =0; j< num_b; j++){
+			if (arr[i] == brr[j]){
+			arr_inter[arr[i]];
+			}
+		}
+	}
+	return arr_inter;
+}
+
+void print_stat(int a[],int b[], int num_a, int num_b){
+	printf("union: %d",uni(a,b,num_a,num_b));
+	printf("intersection: %d",inter(a,b,num_a,num_b));
+
+}
+
+int main() {
+	int arr[MAX_STUDENTS]={0};
+	int brr[MAX_STUDENTS]={0};
+	int num_a, num_b;
+	scanf("%d", &num_a);
+	input_array_a(arr,num_a);
+	scanf("%d", &num_b);
+	input_array_b(brr,num_b);
+	
+	print_stat(arr,brr,num_a,num_b);
+}
