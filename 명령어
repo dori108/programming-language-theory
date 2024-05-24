@@ -1,0 +1,93 @@
+cd
+cd .
+cd ..
+cd 파일 명
+git add 파일 이름
+git add .
+git add ..
+mkdir 폴더 명
+git init 저장소를 깃으로 초기화
+  
+git config
+git config --global user.name "Your Name": 사용자 이름 설정
+git config --global user.email "your.email@example.com": 사용자 이메일 설정
+저장소 초기화 및 클론
+git init
+
+새로운 깃 저장소를 초기화합니다.
+예: git init
+git clone
+
+원격 저장소를 복제합니다.
+예: git clone <repository-url>
+파일 상태 확인
+git status
+
+현재 작업 디렉토리의 상태를 확인합니다.
+예: git status
+git diff
+
+변경 사항을 비교합니다.
+예: git diff
+파일 추가 및 커밋
+git add
+
+변경된 파일을 스테이징 영역에 추가합니다.
+예: git add <file> 또는 git add . (모든 변경된 파일 추가)
+git commit
+
+스테이징 영역의 파일을 커밋합니다.
+예: git commit -m "Commit message"
+브랜치 관리
+git branch
+
+브랜치를 관리합니다.
+git branch: 로컬 브랜치 목록 보기
+git branch <branch-name>: 새로운 브랜치 생성
+git branch -d <branch-name>: 브랜치 삭제
+git checkout
+
+브랜치를 전환하거나 파일을 체크아웃합니다.
+git checkout <branch-name>: 다른 브랜치로 전환
+git checkout -b <new-branch-name>: 새로운 브랜치를 만들고 전환
+git merge
+
+브랜치를 병합합니다.
+예: git merge <branch-name>
+원격 저장소와의 상호작용
+git remote
+
+원격 저장소를 관리합니다.
+git remote -v: 원격 저장소 목록 보기
+git remote add <name> <url>: 원격 저장소 추가
+git fetch
+
+원격 저장소에서 데이터를 가져옵니다.
+예: git fetch
+git pull
+
+원격 저장소의 변경 사항을 가져와서 현재 브랜치에 병합합니다.
+예: git pull
+git push
+
+로컬 커밋을 원격 저장소에 푸시합니다.
+예: git push <remote> <branch>
+기타 유용한 명령어
+git log
+
+커밋 기록을 확인합니다.
+예: git log
+git reset
+
+커밋을 되돌립니다.
+git reset --soft <commit>: 지정한 커밋까지 변경 사항을 스테이징 영역에 남겨둠
+git reset --hard <commit>: 지정한 커밋까지 모든 변경 사항을 삭제
+git stash
+
+현재 작업 중인 변경 사항을 임시로 저장합니다.
+git stash save "stash message": 변경 사항 임시 저장
+git stash apply: 임시 저장한 변경 사항 적용
+git rebase
+
+커밋을 재정렬합니다.
+예: git rebase <branch>
