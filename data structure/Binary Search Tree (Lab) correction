@@ -123,3 +123,9 @@ class BinarySearchTree:
             self.inorder(root.left)
             print(root.key(), end=" ")
             self.inorder(root.right)
+
+
+다음은 BST의 delete 메소드에서 발생할 수 있는 문제를 수정한 코드입니다:
+
+replace 메소드에서 중복된 링크 제거를 처리하지 못하는 경우
+replace 메소드에서 rep_p가 node와 동일한 경우를 제대로 처리하지 못하는 경우
