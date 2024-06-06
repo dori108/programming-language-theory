@@ -1,0 +1,97 @@
+struct : compund type
+
+이전까지는 
+variable, array, 2D array 이렇게 다뤄왔다.
+이 안에는 모두 같은 type만이 저장될 수 있는 것
+
+예) 학생정보(이름 나이 성별)을 넣더라도 모두 str로 들어가는 것이지/
+근데 struct는 다양한 정보 저장이 가능하다.
+int str이 한번에 가능한 것
+2D array와 다 같은데 다른 점이 이것!
+
+Given we have following information for 40 students
+여긴 다양한 유형의 정보가 저장되겠지
+
+1 student number
+2 name
+3 age
+4 gender
+5 height
+6 GPA(학점)
+
+• We now want to build records for all the students
+ int main ()
+ {
+ char s td1nb [ 1 1 ] , s td2nb [ 1 1 ] , . . . ;
+ i n t std1ag , std2ag , . . . ;
+ char s td1gd [ 5 ] , s td1gd [ 5 ] , . . . ;
+. . .
+ }
+-> 얘는 지금 효율적이지 못해 많은 정보들을 입력해서 데이터를 많이 사용중이지
+
+ struct 없이 코딩가능이긴해 그냥 array 이용해서 다 따로따로 쭉
+
+ char name[40][100];
+ int age[40];
+이렇게
+
+
+Composite Data Types
+• It is valid/OK to do it in the way we learned -> 우리가 이전에 배운 1D 2D배열도 사용이 가능하다는 것
+• However, it is not convenient!!!
+• C provides us the way to extend current data types
+• We can combine primitive types into one type
+-> 기존의 데이터 타입을 결합하여 하나의 구조로 묶어서 관리 가능하다.
+
+struct STD { -> 함수처럼 스트럭트이름이 std인것 스트럭트의 시작
+  
+  char stdNb [ 1 1 ] ;
+  int age ;
+  char gender [ 5 ] ;
+} ;
+-> 여러 정보들을 모아서 새로운 데이터를 생성한다.
+마지막으로 끝을 나타내는 ;를 표시해준다.
+
+• “struct STD” is a new data type
+• Its role is similar as int, or float,... -> 이들과 비슷한 역할을 한다. 변수를 선언하듯 스트럭트 변수를 선언하고 사용한다.
+
+** 항상 []을 이용하여 문자를 정의해주나?
+
+struct: grammar of definition
+
+struct structTag { -> 새로운 구조체 타입을 정의할 것임을 선언 (구조체 이름도 structTag라고 정해준다.)
+type1 member1;
+type2 member2;
+...
+typeN memberN; };
+-> 구조체에 포함될 멤버들을 나열해준다.
+다입과 이름으로 정의한다.
+완전히 끝났을 때 ; 확인 시켜주는 것도 잊지 않는다.
+
+• Keyword “struct” is required, it tells C you are going to define a
+composite type
+• structTag gives a unique tag for this new type
+• You list all the memebers and their corresponding types
+• “;” is required at the end
+• Note that, you define a type instead of a variable/constant
+
+-> 구조체를 정의할 때는 새로운 타입을 정의하는 것이기 때문에 변수나 상수를 정의하는 것이 아님을 확실히 한다.
+
+struct: define variable of composite type
+
+struct structTag record;
+-> type(struct + name)
+• Keyword “struct” and structTag are required
+• “record” is the variable name of structTag type
+
+struct STD {
+char stdNm [6 4];
+char stdNb [1 1];
+int age ;
+char gender [5];
+};
+int main ()
+{
+struct STD record ;
+struct STD stds[40];
+}
