@@ -1,0 +1,96 @@
+• Continue with the opening example in the last section
+• In your class, you might have several courses for each student
+• So we need several 1D arrays
+• Alternatively, we can use a 2D array
+
+1차원 배열의 배열 = 2차원 배
+
+i n t main ()
+{
+f l o a t math [4 0 ] ;
+f l o a t c [4 0 ];
+f l o a t phi s [4 0 ];
+f l o a t b i o [4 0 ];
+. . .
+}
+
+각 수업마다 40명이 존재한다고 생각해봐
+i n t main ()
+{
+float courses [ 4 0 ][4] ;
+. . .
+}
+
+
+2D Array: declaration
+
+type arrayName[row][column];
+• Similar as 1D array, type is required
+• “arrayName” should be unique
+• “row” and “column” should be constant expressions
+
+i n t main ()
+{
+float a [4 0 ][ 4 ] ; // there 40 rows and 4 columns in each row
+a [3 ][2 ] = 3.14;
+return 0;
+}
+
+
+2D Array: initialization
+
+i n t main ()
+{
+float a [3 ][4 ] = {{ 1 ,3 ,1 ,1} ,{1 ,2 ,1 ,3} ,{1 ,12 ,1 ,2}} ;
+return 0;
+}
+
+• Following way is also valid
+i n t main ()
+{
+float a  [3 ][4 ] = {1 ,3 ,1 ,1 ,1 ,2 ,1 ,3 ,1 ,12 ,1 ,2};
+return 0;
+}
+-> 이렇게되면 그냥 일차원배열 한개로 정의 되는거
+
+
+i n t main ()
+{
+float a [][4 ] = {{ 1 ,3 ,1 ,1} ,{1 ,2 ,1 ,3} ,{1 ,12 ,1 ,2}} ;
+return 0;
+}
+-> 행의 크기는 생략이 가능하다.
+
+• Following way is also valid, row = [N/4] =3
+이기 때문이다. 크기n에 나누기만 적절히 해주면 된다. 열로!
+
+i n t main ()
+{
+float a  [4 ][ ] = {1 ,3 ,1 ,1 ,1 ,2 ,1 ,3 ,1 ,12 ,1 ,2};
+return 0;
+}
+
+-> 이건 안된다!
+• It is organized in row major order
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
