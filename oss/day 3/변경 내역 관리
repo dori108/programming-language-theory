@@ -1,0 +1,16 @@
+변경내역 취소하기
+git reset : 특정 커밋 이루의 변경사항을 취소할 수 있다.
+git checkout  : 작업 파일을 특정 커밋 상태로 되돌릴 수 있다.
+
+변경사항 임시 저장하기
+git stash : 임시 저장
+git stash apply : 임시 저장한 것을 다시 적용
+
+스태시
+
+커밋하지 않고 임시로 저장하고 나중에 다시 적용하기 위한 기능이다.
+git stash list : 스태시 목록확인하기
+git stash pop : 스태시로 임시 저장한 것을 apply하고 스태시를 없애주는 것이다.
+git stash apply stash@{스태시 목록의 번호} : 특정한 그 스태시를 적용하기 
+git stash drop stash@{n} : 특정한 그 스태시를 삭제하
+git stash clear : 저장된 모든 스태시를 삭제
