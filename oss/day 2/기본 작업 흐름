@@ -1,0 +1,9 @@
+파일 추적하기
+add 와 commit 
+git add : 추적할 파일 지정
+git commit : 변경사항 저장
+
+변경 내역 확인
+git diff : 달라진 점을 찾아봐~
+git status : 파일의 수정 변경 커밋 스테이징 여부 등을 알아볼 수 있음
+
