@@ -1,0 +1,12 @@
+git은 분산 버전관리 시스템
+소스코드의 변경내역을 추적 관리함
+
+기본용어
+  저장소 : 파일과 폴더의 변경 내역을 저장
+  커밋 : 변경 내역의 스냅샷 저장
+  브랜치 : 코드를 분리하여 독립적으로 작업할 수 있는 개념
+  병합 : 브랜치의 변경 내역을 다른 브랜치에 통합하는 것
+
+깃 설치
+$ git config --global user.name "Your Name"
+$ git config --global user.email "your_email@example.com"
