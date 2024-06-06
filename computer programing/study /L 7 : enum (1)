@@ -1,0 +1,100 @@
+enum: motivation
+어느정도 상호 연관성을 유지한다. 
+숫자는 읽기 쉬운 기호로 할당되는데 이게 무슨 말인지는 뒤에 가서 알아보자
+
+• Sometimes, we feel it is more meaningful
+• with symbols: Janurary, Feburary ,..., December
+• than numbers: 1, 2, ..., 12
+• enum allows us to do a kind of correlating
+• Numbers are assigned with readable symbols
+
+enum enumName{memb1, memb2, memb3,...};
+-> 이 안에 멤버들을 열거한다. 
+멤버들은 심볼로써 정의되는 것
+자동적으로 차례 대로 정수 0,1,2...와 연결이 된다.
+
+• You enumerate all the members’ name inside “{}”
+• They are symbols
+• They will be related to integer 0, 1, 2,... automatically
+
+enum Month {Jan , Feb , Mar , Apr , May , Jun , J ul , Aug , Sep , Oct ,Nov , Dec };
+int main ()
+{
+. . .
+}
+
+• You enumerate all the members’ name inside “{}”
+• They are symbols
+• They will be related to integer 0, 1, 2,... automatically
+
+
+enum: how to use it
+
+# include <s t d i o . h>
+enum Month {Jan , Feb , Mar , Apr , May ,Nov , Dec };
+
+int main ()
+{
+enum Month m;
+m = Feb ;
+p r i n t f ( ” Month is : %d\n” , m) ;
+return 0;
+}
+
+output :
+Month is : 1
+• Feb is a symbol instead of a string
+• They will be related to integer 0, 1, 2,... automatically
+
+0부터 할당이 되기때문에 2월이 1월로 표현이 된다.
+
+# include <s t d i o . h>
+enum Week {Mon=1, Tue=1, Wed=3,Thu=5, Fri , Sat =4, Sun } ;
+-> 정해진 값이 없는 num은 자동적으로 전 num값의 +1이된 값으로 할당이 된다.
+할당된 값이 같으면 나중에 헷갈일 일이 생길 수 있으니 주의해야해
+
+int main ()
+{
+enum Week wk ;
+wk=Wed;
+p r i n t f ( ”Wed : %d\n” , wk) ;
+wk=F ri ;
+p r i n t f ( ” F ri : %d\n” , wk) ;
+wk=Sun ;
+p r i n t f ( ” Sun : %d\n” , wk) ;
+return 0;
+}
+
+output:
+Wed: 3
+Fri : 6
+Sun : 5
+
+
+# include <s t d i o . h>
+enum Week {Mon=1, Tue , Wed, Thu , Fri , Sat , Sun } ;
+
+int main ()
+{
+enum Week wk ;
+wk=Wed;
+p r i n t f ( ”Wed : %d\n” , wk) ;
+wk=F ri ;
+p r i n t f ( ” F ri : %d\n” , wk) ;
+wk=Sun ;
+p r i n t f ( ” Sun : %d\n” , wk) ;
+return 0;
+}
+
+output:
+Wed: 3
+Fri : 5
+Sun : 7
+
+• You can use “typedef” to save up your coding efforts
+얘 덕분에 week를 WkType으로 정의하게되었다. 
+
+
+
+
+
