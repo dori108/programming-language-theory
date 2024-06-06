@@ -1,0 +1,76 @@
+여기는 개념이 중요하지 예제는 중요하지 않은 부분이다.
+union: definition
+
+union Data{
+int Int, Short Short;
+float Float;
+};
+
+union Data d;
+d.Int=3;
+// d.Float = 3.0;
+
+이런식으로 어떤 데이터를 다룰 건데
+중요 포인트는 상황에 따라서 여러가지 버전의 유니언이 필요하다는 것이다.
+주 목적은 다양한 타입의 데이터를 사용 가능하다는 것.
+
+Sometimes it is not necessary to reserve a field for each struct member
+• Several fields are allowed to share the same block of memory
+• This special type of structure is called union
+-> the same block of memory 라는 것은 같은 메모리의 블럭을 공유한다는 것이다.
+
+둘의 구조는 같아 보이는데 
+유니언은 하나의 메모리 블럭을 공유한다는 것이 차이점이다.
+
+union Data {
+short i ;
+float f ;
+char str [2 0 ];
+};
+
+struct Data {
+short i ;
+float f ;
+char str [2 0 ];
+};
+
+
+구조
+union [union tag] {
+type1 member1;
+type2 member2;
+
+유니언과 스트럭트는 매우 유사함
+그러나 멤버들의 유지 방식이 다르다.
+유니언은 각 멤버들을 같은 메모리에 위치를 공유하며 멤버들 중 하나만을 동시에 사용 가능하다.
+
+
+struct Data1 {
+short i ;
+float f ;
+char str [10 ];
+};
+
+union Data2 {
+short i ; -> 2byte
+float f ; -> 4byte
+char str [10 ]; -> 10byte
+};
+
+유니언은 가장 바이트 수가 큰것을 선택한다.
+
+int main()
+{
+  Data1 d1;
+  Data2 d2;
+  p r i n t f("size of d1 &d", sizeof(d1));
+  p r i n t f("size of d2 &d", sizeof(d2)); //10byte +2 추가할
+  return 0;
+}
+
+output :
+Size of d1: 20
+Size of d2: 12
+
+union: how they are kept in the memory
+스트럭트와 구별해서 공부해보기
