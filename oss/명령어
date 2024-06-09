@@ -85,9 +85,18 @@ git reset --hard <commit>: 지정한 커밋까지 모든 변경 사항을 삭제
 git stash
 
 현재 작업 중인 변경 사항을 임시로 저장합니다.
-git stash save "stash message": 변경 사항 임시 저장
+git stash save "stash message": 변경 사항 임시 저장 여러개의 스태시를 만들었을 때 유용하다
 git stash apply: 임시 저장한 변경 사항 적용
 git rebase
 
 커밋을 재정렬합니다.
 예: git rebase <branch>
+
+git rev-phase : 특정 리비전의 커밋해시를 출력할 수 있다.
+git rev-phase HEAD^ :가장 최근의 커밋 해쉬를 출력한다.
+
+*HEAD : 현재 체크아웃된 브랜치를 가리키는 참조 
+최신 커밋 해치를 출력한다 
+HEAD^ : 부모 커밋
+HEAD~n : n번째 부모 커밋을 의미
+
