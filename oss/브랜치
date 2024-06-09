@@ -1,0 +1,86 @@
+원격(리모트) 브랜치
+저장소는 각자의 고유한 브랜치를 생성하고 관리
+원격 저장소에 설치한 브랜치로 로컬에서 생성된 브랜치와는 다른 것이다.
+-> 합치기 위해서는 저장소를 동기화 해야한다.
+보통 별칭/브랜치 이름 형태로 브랜치 이름을 정한다.
+원격, 로컬의 이름은 반드시 일치하지 않아도 괜찮다.
+
+git remote add origin url주소 : 원격저장소 등록 
+-> 보통 깃헙에서 복사해와서 저렇게 뒤에 붙인다.
+
+git remote -v : 원격 저장소 목록 확인
+그러면 fetch 된 것과 push된 것이 두개 뜰 것
+
+브랜치 추적
+깃의 브랜치는 특정 커밋 해시값을 가리키는 포인터이다
+추적 브랜치는 원격 브랜치의 마지막 커밋 해쉬값을 의미
+ls .git/refs/ : 원격 브랜치 정보를 얻는다.
+(In stash cat .git/refs/stash)
+
+remote show : 브랜치 확인하기
+git remote show origin(별명으로 쓰네) : 등록된 원격 브랜치의 리모트 브랜치 보여줘~
+
+git push -u origin master : master 브랜치 전송
+자세히 말하자면 로컬 브랜치를 push한거야 지금 > 로컬과 동일한 브랜치를 원격에서도 갖게되는 것이지 
+지금 이 브랜치들은 로컬이 아니라 원격 브랜치들을 만드는 작업인거야.
+
+git branch -v : 브랜치 목록 확인
+git push -u origin hotfix : hotfix 브랜치를 전송한다. 이 작업은 hotfix 위에서 되네..? 그래도 되는 건가 
+-> 원격 브랜치가 생성되는 것이다.
+
+이러면 이제 원격 브랜치에 master, hotfix 브랜치 두개가 존재하게 된다.
+이름이 다른 브랜치인 경우 
+git push origin 브랜치 이름 : 새로운 브랜치
+이렇게 하면 다른이름으로 브랜치 전송이 가능하다.
+
+git push -u origin feature:function
+
+*git push origin hotfix: 단순히 브랜치를 원격 저장소에 푸시한다.
+git push -u origin hotfix: 브랜치를 원격 저장소에 푸시하고, 
+추적 브랜치를 설정하여 이후에 git push와 git pull을 편리하게 사용할 수 있게 한다.
+
+업스트림 트래킹
+업스트림 = 브랜치 추적
+리모트 브랜치와 로컬 브랜치를 연결해주는 중간다리역할
+
+원격 저장소 복제하기
+git clone 원격저장소 url 복제한 폴더 이름
+
+앞으로는 복제한 폴더 이름으로 가서 실습한다.
+git branch -v : 브랜치 목록 
+막 클론해온 저장소는 master하나만 표시된다.
+-r 옵션을 사용하면 원격 저장소의 브랜치 목록을 확인할 수 있다.
+
+ex.
+git branch -r
+origin/HEAD ->origin/master
+origin/function
+origin/hotfix
+...
+
+git branch -a : 모든 브랜치 정보 확
+git branch -vv : 트래킹 브랜치 목록 확인
+트래킹 = 추적
+추적된 것이 하나 뿐이라면 하나만 뜨겠지? 클론 해오면 브랜치는 master하나만 가져오고 나머지는 추적이 되지 않는다.
+git checkout --track origin/브랜치 이름 : 직접 트래킹 브랜치 지정하기 -> 새로운 업스트림 생성할 수 있는 명령어
+
+checkout 명령어가 포함되어있으니 브랜치 이동도 동시에 된다.
+git branch -v : 트래킹 브랜치 목록을확인해보면 master + 추가한 브랜치 이름이 뜨는 것을 확인할 수 있다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+** remote : 원격저장소 관련된 내용
