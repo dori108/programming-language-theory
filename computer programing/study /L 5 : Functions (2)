@@ -1,0 +1,95 @@
+Functions and MACROs
+recursive Function
+• We already know that function is allowed to call any other function
+• Function is allowed to call itself, this is called recursive
+• It looks like following
+
+int func1(int n);
+int func2(int n){
+  int a= 2*func2(n-2);
+  ...
+  int b=func1(n-3);
+  return (a+b);
+}
+• Noticed that “func2” has been called inside “func2”
+재귀함수는 0일 때를 따로 설정해줘야한다.
+
+
+Recursive Function: how it works 
+long fact(int n){
+  long a=0;
+  if(n<0)
+    a=0;
+  else if (n==1 ||n==0)
+    a=1;
+  else
+    a=n*fact(n-1);
+  return a;
+}
+
+
+long fact(int n){
+  long a=1;
+  int i=0;
+  if(n<0)
+    return 0;
+  for(i = n; i>0; i--){
+    a=a*i;
+  }
+  return a;
+}
+두개는 같은 작동을 한다. 
+1. 많은 데이터를 다루는 경우 -> for loop -> 메모리가 한개야
+2. 설계할 때 더 편리해 -> recursion -> 단계 넘어갈 때마다 메모리가 증가한다. 마이너스요소이다.
+
+위의 둘 중 하나만 선택하고 
+int main(){
+  int n=4, b=0;
+  b=fact(n);
+  printf("fact(%d) = \n", n, b); // 4,24
+  return 0;
+}
+
+"fact" calls itself until the bottom is reached: 재귀 함수는 자기 자신을 호출하는 함수
+Darkside: requires a lot of memory: 재귀 함수는 호출 스택(call stack)을 사용하므로 깊은 재귀 호출이 많은 메모리를 사용할 수 있습니다. 이는 스택 오버플로(stack overflow)를 유발할 수 있습니다.
+Suggestion: try to avoid using recursive function: 반복문을 더 선호 
+
+재귀함수는 끝을 찍고나서야 돌아올 수 있다. fact(1)를 찾고 나서야 원하는 값을 역으로 구할 수 있다.
+
+
+Recursive Function: Hanoi Tower Problem
+• One is allowed to move one disc from one beam/rod to another only if the top disc of the latter beam is larger.
+• Goal: move all discs from beam A to C
+
+하노이의 탑 있잖아 a,b,c 세개의 봉이 있고 a에서 c로 옮기는 것
+
+#include<stdio.h>
+void hanoi(int n, char b1, char b2, char b3){
+  if(n==1){
+    printf("%c --->%c\n",b1,b3);
+  }else if(n==2){
+    printf("%c --->%c\n",b1,b2);
+    printf("%c --->%c\n",b1,b3);
+    printf("%c --->%c\n",b2,b3);
+  }else{
+    hanoi(n-1,b1,b3,b2);
+    printf("%c --->%c\n",b1,b3);
+    hanoi(n-1,b2,b1,b3);
+  }
+}
+
+-----여기까지가 이제 첫번째 테스크
+다음은 n A to C 
+그 다음은 
+hanoi(n-1,B,A,C)
+
+int main(){
+int n=20;
+printf("Input n: ");
+scanf("%d",n);
+hanoi(n,'A','B','C');
+}
+
+1 Move top n-1 plates from A to B via C
+2 Move the bottom one to C
+3 Move n-1 plates from B to C via A
