@@ -1,0 +1,220 @@
+Breadth-First Search
+: Breadth-first search (BFS)
+is another general
+technique for traversing a
+graph
+
+eg.
+...
+
+A BFS traversal of a graph G 
+• Visits all the vertices and edges of G
+• Determines whether G is connected
+• Computes the connected components of G
+• Computes a spanning forest of G
+
+BFS on a graph with nvertices and medges takes O(n + m) time
+BFS can be further extended to solve other graph problems
+• Find and report a path between two given vertices
+• Can label each vertex by the length of a shortest path (in terms of # of edges) from the start vertex s
+• Find a simple cycle, if there is one
+
+BFS Algorithm
+
+
+
+
+
+
+
+
+
+
+
+
+
+Shortest Paths
+
+Weighted Graphs
+
+• In a weighted graph, each edge has an associated numerical value, called the weight of the edge
+• Edge weights may represent, distances, costs, etc.
+
+Example:
+• In a flight route graph, the weight of an edge represents the distance in miles between the endpoint airports
+
+
+Shortest Paths
+
+Given a weighted graph and two vertices u and v, we want to find a path of minimum total weight between u and v.
+• Length of a path is the sum of the weights of its edges.
+
+Example:
+• Shortest path between Providence and Honolulu
+
+Applications
+• Internet packet routing
+• Flight reservations
+• Driving directions
+
+
+
+Shortest Path Properties
+
+Property 1:
+A subpath of a shortest path is itself a shortest path
+
+Property 2:
+There is a tree of shortest paths from a start vertex to all the other vertices
+
+Example: Tree of shortest paths from Providence (PVD)
+
+
+Our goal and Initial Ideas
+
+Goal
+• Given a source vertex s, compute the shortest paths to all other vertices
+
+Initial Ideas
+• Compute all the paths from the source s to other vertices
+• Take the minimums
+• How much complexity?
+->Exponential (not a polynomial time algorithm)
+• Why is this algorithm stupid?
+->Ignore the wisdom from computing the minimum path for computing other minimum paths
+
+
+Dijkstra’s Algorithm (1)
+
+The distance of a vertex v from a vertex s is the length of a shortest path between s and v
+distance = shortest (코딩으로 경로 따지지는 않을 것이다.)
+if  start with S : d(S) = 0(itself)
+
+We grow a “cloud” of vertices, beginning with sand eventually covering all the vertices
+->Remember the “wisdom” 
+“cloud” : 거리를 알려준다. 확실한 지식이라고 하면 조금 쉽지
+
+Dijkstra’s algorithm computes the distances of all the vertices from a given start vertex s
+Assumptions:
+• the graph is connected
+• the edges are undirected
+• the edge weights are nonnegative
+
+Example
+• What is your distance to ”Obama” in facebook? 50
+• Suppose that MoonJaeinbecomes your friend
+• What is your distance to “Obama” then?
+• Probably much shorter than 50. Maybe 2? 
+
+Example first
+그림에는 초기화 상태인게 안나왔는데 알고리즘이 알고있는 것은 오직 A:0이라는 사실 
+1. 그럼 이 확실한 값은 “cloud”에 들어간다. (제일 가까운 거리를, 노드를 추가한다.)
+2. 이 추가된 노드를 기준으로 이웃의 거리를 업데이트한다.
+주변 노드는 B,C,D가 있네 
+거리를 기준으로 해서 얼마나 떨어져있는지를 확인하는 것이니까 A:0이므로 거리 숫자가 그대로 노드에 들어간다.
+3. 제일 짧은 거리를 “cloud” 안에 넣는다. 이제 A->C이렇게 클라우드에 포함되게 되는 것이다.
+4. 여기서 기준으로 B를 보면 C를 통해 가는 것(9) 보다 A를 통해서 가는 것(8)이 짧다는 것이 확인된다. 
+따라서 포함되지 않는다.
+반면 D의 경우 C에서 가는 것(1)이 더 짧다.
+-> 클라우드에 추가된다.
+마찬가지 방법으로 E도 추가된다.
+5. E를 기준으로 봤을 때 B도 추가할 자격이 된다.
+6. 마지막으로 F도 추가할 자격이 되는 것이다.
+
+Dijkstra’s Algorithm (2)
+
+• We store with each vertex va label d(v) representing the distance of v from s in the subgraph consisting of the cloud and its adjacent vertices
+At each step
+• We add to the cloud the vertex u outside the cloud with the <smallest distance> label, d(u) 
+• We update the labels of the vertices adjacent to u
+• <Greedy method> : we solve the problem at hand by repeatedly selecting the best choice from among those available in each iteration
+
+
+업데이트 과정을 부르는 말 : Edge Relaxation
+Consider an edge e = (u,z) such that
+• u is the vertex most recently added to the cloud
+• z is not in the cloud
+u부터 z로 가는 거리를 확인해본다
+1. Distance to z, not considering u
+2. Distance to z,considering u
+두가지 방법이 있다.
+
+The relaxation of edge e updates distance d(z) as follows: 
+d(z) <- min{d(z),d(u) + weight(e)}
+
+
+Recall: Priority Queue ADT
+제일 작은 값이 제공도는 자료구조이다.
+키 값에 따라서 정해지는 순서가 포인트이다.
+
+• A priority queue stores a collection of entries
+• Typically, an entry is a pair (key, value), where the key indicates the priority
+• Main methods of the Priority Queue ADT
+• insert(e) inserts an entry e
+->removeMin()
+->removes the entry with smallest key
+
+• Additional methods
+->min() returns, but does not remove, an entry with smallest key
+->size(), empty()
+
+
+Dijkstra’s Algorithm
+
+A heap-based adaptable priority queue with location-aware entries stores the vertices outside the cloud
+• Key: distance
+• Value: vertex
+• Recall that method replaceKey(l,k) changes the key of entry l with k
+• We store two labels with
+
+each vertex:
+• Distance
+• Entry in priority queue
+• We take out the vertex
+with the minimum
+distance so far
+
+아래는 자세히 이해하진 않아도 괜찮음 : 대충 과정만 이해하면 된다. 이 단계가 어떤 일들을 하는지
+이 줄이 무슨일을 하고있는지지
+Algorithm DijkstraDistances(G, s)
+Q <- new heap-based priority queuefor all v  G.vertices()
+if v = s
+v.setDistance(0)
+else
+v.setDistance(무한)
+l <- Q.insert(v.getDistance(), v)
+v.setEntry(l)
+while Q.empty()
+l <- Q.removeMin()
+u <- l.getValue() // take out the closest nodefor all e 포함 u.incidentEdges() { relax e}z <- e.opposite(u)
+r <- u.getDistance() + e.weight()if r < z.getDistance()
+z.setDistance(r)
+Q.replaceKey(z.getEntry(), r)
+
+큐에서 리무브 했는데 제일 가까운 노드(여기서는 u)로 받았다 뭐 이정도로만 이해하면 된다. 
+distance가 업데이트 되면 Q도 업데이트 되어야한다.
+
+수행시간은?
+모든 multics에서 확인 중 그리고 Q에 넣고 있다.
+따라서 logn에 모든 multics에서 확인 중이므로 n*logn
+리무브도 n번 삭제된다. > Q가 비워질 때까지
+
+
+Why Dijkstra’s Algorithm Works : 여기는 시험 범위 아님
+
+Analysis of Dijkstra’s Algorithm
+• Graph operations
+->incidentEdges is called once for each v
+• Label operations
+->We set/get the distance and locator labels of vertex z, O(deg(z)) times
+->Setting/getting a label takes O(1) time
+• Priority queue operations
+->Each v is inserted once into and removed once from the PQ, where each insertion or removal takes O(log n) time  total nO(log n) 
+->The key of a vertex in the PQ is modified at most deg(v) times, where each key change takes O(log n) time
+• Dijkstra’s algorithm runs in O((n + m) log n) time provided the graph is represented by the adjacency list structure
+->Recall that Sv deg(v) = 2m
+• The running time can also be expressed as O(m log n) since the graph is connected
+
+O((n + m) log n)
+O(m log n)
+이 두가지는 거의 같다! -> 왜? 못들었어
