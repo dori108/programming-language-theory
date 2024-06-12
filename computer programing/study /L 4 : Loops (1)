@@ -1,0 +1,243 @@
+int main (){
+int x = 1;
+double S = 0;
+S += 1. 0/ ( x∗x ) ;
+x += 1;
+S += 1. 0/ ( x∗x ) ;
+x += 1;
+S += 1.0/ ( x∗x ) ;
+x += 1;
+S += 1. 0/ ( x∗x ) ;
+x += 1;
+S += 1. 0/ ( x∗x ) ;
+printf ( ” S = %l f \n” , S ) ;
+return 0;
+}
+
+//%l f \n : long float
+반복되는 내용이 너무 많지? 이걸 단순화 시킬 수 있는데 반복되는 부분을 잘라서 loop를 돌려준다.
+
+
+Motivation of loops
+• In the above example
+• Following statement repeated for 5 times, only x changes each time
+x += 1;
+S += 1.0/ ( x∗x ) ;
+• We can put it inside a loop
+• Tell the loop that how many times we want to repeat
+
+x = 0; -> 초기화는 시켜줘야한다.
+while ( x <= 4){ -> 얘를 만족하는 경우에만 loop가 돌아간다.
+  x += 1;
+  S += 1. 0/ ( x∗x ) ; -> 위에서 lf로 출력했으니 1.0으로 받아와야한다.
+}
+
+반복문을 돌리는 방법은 크게 세지가 있다.
+while ( condition )
+statement ;
+
+do
+statement ;
+while ( condition ) ;
+
+for (initialization ; condition ; statement )
+statement ;
+
+
+while과 do-while은 조건이 반대야
+for문은 초기화를 시켜줘야해
+이 세가지는 서로 대체가 가능하다.
+
+
+while loop control
+The execution checks if the condition is still non-zero:
+반복문이 실행될 때마다 조건이 여전히 참(0이 아닌 값)인지 확인합니다.
+이 조건은 루프의 계속 실행 여부를 결정합니다.
+
+If it is, execute the statement(s):
+조건이 참이면, 루프 본문에 있는 문장들을 실행합니다.
+루프 본문은 루프 블록 내에 포함된 코드입니다.
+
+Otherwise, gets out from the loop:
+조건이 거짓(0)인 경우, 루프를 종료하고 루프 이후의 코드로 이동합니다.
+
+int i = 2; //stmt
+while ( i > 0) //condition
+--i ; //stmt
+printf ( ” done\n” ) ;
+
+[OUTPUT]
+done #1
+done #0
+stop !
+
+1 Check (i > 0) → true → go to line 3
+2 Decrement i → i now is 1, go back to line 2
+3 Check (i > 0) → true → go to line 3
+4 Decrement i → i now is 0, go back to line 2
+5 Check (i > 0) → false → go to line 4
+6 Print done
+
+
+Check Prime Number
+• Check whether an integer number is a prime number -> 숫자가 1과 자기 자신 이외의 다른 수로 나누어지는지 확인(이게 소수의 정의).
+• Prime number: number that is only dividable by 1 and itself -> 최적화: 숫자의 제곱근까지만 확인하면 된다. 왜냐하면, 어떤 수 n이 소수가 아니라면 그 약수 중 하나는 반드시 sqrt(n) 이하이기 때문이다.
+• 81 is not a prime number; 173 is prime number
+• Any idea to solve this problem??
+
+2부터 n-1까지 나눠보자 -> 1과 자기 자신은 포함하지않도록 
+5%2=1
+5%3=2
+5%4=1
+
+2는 따로확인해주기 나눠지는 것이 너무 많아
+변수를 i라고 하고 생각해보자.
+n%i=0이면 약수를 의미하는거잖아.
+
+Check Prime Number 
+1 Start from 2 to N
+2 Check whether N is dividable by any number in this range
+
+int i =2, N=177;
+int PRIME =1;
+while(i<N){
+  if(N%i==0){
+    PRIME=0;
+  }
+if(PRIME)
+  printf("%d is a prime number\n", N);
+else
+  printf("%d is not a prime number\n", N);
+}
+-> 뭔가 빼먹은거 없니? i에 변화를 줘야지
+
+int i =2, N=177; //2부터 시작한다는 것
+int PRIME =1; //T라는 의미
+while(i<N){
+  if(N%i==0){ //나눠지면 프라임이 아니지
+    PRIME=0;
+  }
+  i++ // whilw 끝에 넣기
+if(PRIME)
+  printf("%d is a prime number\n", N);
+else
+  printf("%d is not a prime number\n", N);
+}
+
+-> if-else문은 whilw 밖에 두어야 계속 반복 출력이 되지 않는다.
+
+순서
+1. initializing
+2. condition setting
+3. edit, updating (in loop)
+
+
+do...while : 실행 후 컨디션 확인한다.
+• do...while executes the statement(s) first
+• Checks the condition after each run
+
+int i=1;
+do{
+  --i; //조건과 상관없이 수행
+  printf("i=%d\n",i);
+}while(i>1);
+
+int i=1;
+while(i>1){
+--i;
+printf("i=%d\n",i); //아무것도 출력되지 않는다.
+}
+
+두개의 출력값은 같다.
+
+Example 1
+• Calculate x = √𝑎
+• Loop until error less than 10^(−5) in consecutive iterations
+• Hints: x0 is an arbitrary positive value
+
+
+for loop
+The For-Loop is comfortable for iterating. It takes three arguments.
+• Initialization (i=0;)
+• Condition (i < 5;)
+• Iteration statement (i+=1)
+
+
+• Consider a program printing the numbers 1 to 10:
+int i;
+for(i=1; i<=10; ++i){ // 초기화, condition, update
+  printf("%d\n",i);
+}
+
+• i starts from 1
+• Check if i is less than or equal to 10
+• Go into the loop if it is true (non-zeor)
+• Increment i, e.g., i++ or i+=2
+
+
+break
+• Similar as switch-case
+• break can be used inside a loop (while/do-while/for) //outside also can use!
+• Jumping out from the loop as soon as it is called
+
+switch(){
+  case..;
+  case..;
+  ...
+  break; //만나면 루프를 나와버린다.
+}
+
+int i , s = 0;
+for ( i = 1; i <= 10; ++i ){
+  s += 2∗i ;
+  i f ( i%4 == 0) break ;
+}
+printf ( ” s=%d\n” , s ) ;
+
+continue
+• Different from break
+• continue can be ONLY used inside a loop
+• Ingore statements followed, go to next round of loop
+
+int i , s = 0;
+for ( i = 1; i <= 10; ++i ){
+  i f ( i%4 == 0) 
+    continue ;
+  s += 2∗i ;
+}
+printf ( ” s=%d\n” , s ) ;
+
+얘는 루프를 바로나가지 않아. 남은애 계산을 하지 않은채로 계속 루프를 돈다.
+
+이후 예시들은 따로 공부하도록!
+
+
+
+Try to avoid following case
+• Be careful, this
+while (1 > 0) ->이 코드는 while 루프의 조건을 나타냅니다. 1 > 0 조건은 항상 참이므로, 루프는 무한히 반복됩니다.
+  printf ( ” Hello, it’s me again !\ n” ) ;
+
+• Runs infinitely
+• ∞ loops are common mistakes, and you will experience many of them
+• Check for conditions that are always true ->항상 참인 조건을 사용하지 않도록 주의해야 합니다.
+
+
+Valid variants of for-loop
+• The arguments for the for loop are optional -> for 루프의 세 가지 인수(초기화; 조건; 반복)는 생략할 수 있습니다.
+• If you already have defined your iterating variable -> 반복 변수가 이미 정의되어 있는 경우, 초기화 인수를 생략할 수 있습니다.
+
+int i = 1;
+for ( ; i <= 10; ++i )
+  printf ( ”%d\n” , i ) ;
+
+• Or if you have the iteration statement in your loop body ->반복 문장(++i)이 루프 본문에 포함되어 있는 경우, for 루프의 반복 인수를 생략할 수 있습니다.
+
+for ( i = 1; i <= 10;)
+  printf ( ”%d\n” , ++i ) ; / ∗ seems more like a while loop∗/
+
+
+• If you’re not passing anything, it runs forever
+for ( ;;)
+  printf ( ” I ’m still here\n” ) ;
+Note: the semicolons are still there.
