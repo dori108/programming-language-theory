@@ -1,0 +1,17 @@
+Analysis of Dijkstra’s Algorithm
+• Graph operations
+->incidentEdges is called once for each v
+• Label operations
+->We set/get the distance and locator labels of vertex z, O(deg(z)) times
+->Setting/getting a label takes O(1) time
+• Priority queue operations
+->Each v is inserted once into and removed once from the PQ, where each insertion or removal takes O(log n) time  total nO(log n) 
+->The key of a vertex in the PQ is modified at most deg(v) times, where each key change takes O(log n) time
+• Dijkstra’s algorithm runs in O((n + m) log n) time provided the graph is represented by the adjacency list structure
+->Recall that Sv deg(v) = 2m
+• The running time can also be expressed as O(m log n) since the graph is connected
+
+O((n + m) log n)
+O(m log n)
+이 두가지는 거의 같다! -> 왜? 못들었어
+에 이어서
