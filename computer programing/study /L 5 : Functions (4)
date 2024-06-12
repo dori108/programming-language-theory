@@ -1,0 +1,197 @@
+Precompilation
+Precompilation: the Concept 
+• It happens before we compile codes to binary
+• Preprocess the codes
+• There are instructions we use to communicate with the compiler
+소스 코드를 컴파일하여 실행 가능한 바이너리 코드로 변환하기 전에 발생하는 단계 중 하나로 "전처리(Preprocessing)" 단계
+전처리(Preprocessing): 전처리 단계는 컴파일러가 소스 코드를 처리하기 전에 발생. 단계에서는 소스 코드에 포함된 전처리 지시문(preprocessor directives)을 처리합니다. 
+예를 들어, "#include" 지시문은 해당 파일의 내용을 소스 코드에 포함시키고, "#define" 지시문은 매크로를 정의합니다.
+전처리 지시문(Preprocessor Directives): 전처리 지시문은 컴파일러에게 소스 코드를 처리하는 방법을 지시하는 명령
+전처리 지시문은 주로 "#" 기호로 시작하며, 컴파일러에게 특정한 작업을 수행하도록 합니다.
+
+ 컴파일러와 소스 코드 간에 상호 작용할 수 있는 명령은 전처리 지시문(preprocessor directive)이라고 한다.
+• There are instructions we use to communicate with the compiler
+모두 "#" 기호로 시작함. 이러한 명령들은 소스 코드의 구조를 변경하거나 컴파일러에게 특정한 작업을 수행하도록 지시
+• They all start with “#”, pronounced as “sharp”
+1 #include header file or full path of file -> 다른 파일의 내용을 현재 파일에 포함시킴. 이를 통해 다른 파일에 정의된 함수, 변수, 또는 매크로를 현재 파일에서 사용할 수 있다.
+
+2 #define MACRO ->매크로를 정의( 매크로는 코드의 특정 부분을 대체하여 코드를 간단하게 만드는 데 사용)
+3 #if...#else or #if...#else if MACRO ->조건에 따라 소스 코드의 일부를 컴파일하거나 제외시킬 수 있다.
+4 #ifndef MACRO ->(if not defined의 준말)매크로가 정의되어 있지 않은 경우에만 코드를 컴파일한다. 이를 통해 중복 포함을 방지하고 코드의 효율성을 높인다.
+5 #endif ->조건부 컴파일 블록을 종료. "#if"나 "#ifdef" 등의 조건부 컴파일 지시문과 함께 사용하여  조건부 코드 블록을 닫는다.
+
+이러한 전처리 지시문들을 사용하여 소스 코드를 유연하게 조작하고, 특정 환경에 맞게 컴파일할 수 있습니다.
+
+Precompilation instruction: #include
+• It tells the compiler that:
+A header file is required to compile the code
+#include<stdio.h>
+#include "myfunc.h"
+
+• <stdio.h> tells the compiler to search in the system default path
+• ”myfunc.h” tells the compiler to 
+1. search in the directed path, 
+2. then go to system default path
+
+[myfunc.h]
+float mypow(float base , int n){
+  float r=1;
+  int i=0;
+  if(n==0)
+  return r;
+
+  for(i=1; i<n; i++){
+    r =base*r;
+  }
+  return r;
+}
+
+[main.c]
+#include<stdio.h>
+#include "myfunc.h"
+int main(){
+  float r =mypow(3.14,3);
+  printf("r = %f\n", r);
+  return 0;
+}
+
+
+Instruction for Macros: #define
+• #define allows user to define constants or functions
+• These constants and functions can be later called in the code
+• As a convention, we CAPITALIZE everything
+• However, it is possible that PI is defined elsewhere
+#define 지시문을 사용하면 사용자가 상수나 함수를 정의할 수 있다. 
+이러한 상수나 함수는 나중에 코드 내에서 호출될 수 있다.
+define + MARCO + 상수/함수
+대문자로 정의하는 것이 일반적이다.
+
+
+#define PI 3.1415926
+#include<stdio.h>
+int main(){
+  float a=0, r=4.5;
+  a=PI*r*r;
+  printf("a = %f\n", a);
+  return 0;
+}
+
+After pre-compilation
+#define PI 3.1415926
+#include<stdio.h>
+int main(){
+  float a=0, r=4.5;
+  a=3.1415926*r*r; //이렇게 메크로 값으로 대체 되어 들어간다. 따로 정의하지 않아도 
+  printf("a = %f\n", a);
+  return 0;
+}
+
+
+#define MULT( x , y ) x∗y+y
+#include < stdio . h>
+int main (){
+  float a = 2 , r = 4. 5;
+  a = MULT( a , r ) ;
+  printf ( ” a = %f \n” , a ) ;
+  return 0;
+}
+
+#ifndef MULT
+#define MULT( x , y ) x∗y+y
+#endif
+#include < s t d i o . h>
+int main (){
+  float a = 2 , r = 4. 5;
+  a = MULT( a , r ) ∗4;
+  printf ( ” a = %f \n” , a ) ;
+  return 0;
+}
+
+• Pay attention that the constant has NO type
+• We can similarly define Macro function
+"상수가 타입을 가지지 않는다"는 것은 해당 상수가 어떤 데이터의 종류를 나타내지 않는다는 것 -> 이는 매크로 상수의 특성 중 하나
+매크로 상수는 단순히 값만을 정의하고, 그 값은 코드에서 사용될 때 해당하는 타입으로 해석되기 때문에 매크로 상수는 데이터 타입을 명시적으로 지정하지 않는다.
+매크로 함수도 매크로 상수와 마찬가지로 단순히 값만을 정의하고, 해당 값은 코드에서 사용될 때 함수 호출로 해석됩니다. 이 역시 함수의 반환 값이나 매개변수의 타입을 명시적으로 지정하지 않는 특성을 가지고 있습니다.
+
+#ifndef MULT
+#define MULT( x , y ) x∗y+y
+#include < stdio . h>
+int main (){
+  float a = 2 , r = 4. 5;
+  a = MULT( a , r ) ;
+  printf ( ” a = %f \n” , a ) ;
+  return 0;
+}
+
+
+#include < s t d i o . h>
+int main (){
+  float a = 2 , r = 4. 5;
+  a = a*r+r∗4;
+  printf ( ” a = %f \n” , a ) ;
+  return 0;
+}
+이게더 나은 버전이야. 데이터 리도 그렇고 여러 측면에서
+
+
+• It is literally replacement all the time
+매크로는 말그대로 대체하는 것을 의미한다.
+
+#ifndef HI
+#define HI ” h el l o ”
+#define WD world -> 잘봐 여기 따옴표가 없지 그럼 제대로 된 선언이 아닌거야.
+#endif
+#include < s t d i o . h>
+int main ()
+{
+printf ( ” HI” );
+printf ( ” \n” );
+printf (WD); -> 따옴표가 없잖아 defined 되었나 찾아봐 -> 따옴표가 없잖아. -> 없다면 오류인거야 
+printf ( ” \n” ); 
+printf ( HI ); -> 따옴표가 없잖아 defined 되었나 찾아봐 -> 따옴표가 있네-> 오류 아님
+return 0;
+}
+
+어떻게 출력될까?
+HI
+hello
+//world가 없다.
+
+단 전체적인 run을 돌리면 에러가 나게된다.
+[after comment out line 10, output]
+HI
+hello
+
+
+Instruction for Macros: #ifdef
+• The code is compiled inside #ifdef only when “DEBUG” is defined
+
+#define DEBUG
+#include < s t d i o . h>
+int main (){
+  int i = 0, j=1;
+  for(i=0;i<5;i++){
+    j=i*2+1;
+    #ifdef DEBUG
+    printf("j = %f\n",j);
+    #endif //출력 
+  }
+  return 0;
+}
+
+// #define DEBUG 이렇게 처리해두면 정의되지 않잖아.
+#include < s t d i o . h>
+int main (){
+  int i = 0, j=1;
+  for(i=0;i<5;i++){
+    j=i*2+1;
+    #ifdef DEBUG  //정의되어있지 않기에
+    printf("j = %f\n",j);
+    #endif // 출력이 되지 않는다. 정의되어있지 않기 때문에 
+  }
+  return 0;
+}
+
+이 코드는 DEBUG 매크로가 정의되어 있으면 printf 함수가 실행될 때 %f 형식 지정자를 사용하여 정수 변수 j를 출력하려고 시도한다.
+그러나 j는 정수형 변수이기 때문에 %f 형식 지정자는 부적절하며, 이는 잘못된 출력 형식 지정으로 이어질 수 있다.
+일반적으로 정수를 실수로 해석하여 출력하는 것은 C 언어에서는 정상적으로 동작하지 않기 때문에 %d 형식 지정자를 사용하여 정수를 출력하는 것이 올바른 방법이다.
