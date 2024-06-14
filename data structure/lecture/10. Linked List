@@ -1,0 +1,118 @@
+Sorting-Review
+
+• Sequential methods:
+• Insertion Sort
+• Other similar algorithms: selection sort, bubble sort
+
+• Divide-and-conquer methods
+  • Merge sort
+    • Divide the data into two halves
+    • Recur for each half until there one or less element
+    • Merge the sorted halves returned from recursion
+  • Quick sort
+    • Choose a pivot x (usually, the first or last element is chosen)
+    • Divide the data into L, E, G subsets
+    • L: less than pivot, E: equal to pivot, G: greater than pivot
+    • Recur for L and G
+    • Merge as (L, E, G)
+
+---------
+
+Linked List
+
+Array
+• Storing data in a sequential memory locations
+• Access each element using integer index
+• Very basic, popular, and simple
+• int a[10]; int *a = new int(10); 
+
+Array: Problems
+• New insertion and deletion: difficult
+• Need to shift to make space for insertion
+• Need to fill empty positions after deletion
+
+-> solving with Linked List
+
+
+1. Singly Linked List
+
+• A singly linked list is a concrete data structure consisting of a sequence of nodes
+• Each node stores
+  • element
+  • link to the next node
+
+
+Array vs Linked List
+• Array
+  • Simpler implementation, easy-to-understand
+  • Faster access
+  • Complex insertion/deletion
+  • Size limit
+• Linked List
+  • Complex implementation
+  • Efficient insertion/deletion
+  • No size limit 
+
+(1) Implementation
+시작은 무조건 초기화 class로
+
+class Node:
+  def__init__(self,item,link):
+    self.item=item
+    self.next=link
+
+(2) Basic Operations
+
+Insertion
+• insert_node(head, p, new_node)
+  • head: head node of the list
+  • p: the node before the new node
+  • new_node: the new node to be inserted
+• 4 situations:
+  • Head is None: empty list; insert the first node
+  • p is None: Insert before head
+  • Usual case: insert in the middle of a list
+  • If p is Tail: insertion process is as same as usual 
+
+
+Deletion
+• delete_node(head, p, removed)
+  • removed: the node to be removed
+  • p: the node before <removed>
+• 2 situations:
+  • Deleting head node
+  • Deleting usual node 
+
+Use dummy node
+링크드리스트에서 주로 사용되는 노드
+주어진 문제의 데이터를 실제로 담지 않는 임시 노드이다. 예외사항처리할 경우 많이 사용한다.
+• To avoid special processing for head
+head -> dummy -> actual head -> ...
+
+Traverse
+데이터 구조에서 요소들을 순회하거나 탐색하는 것을 의미한다.
+보통 데이터의 모든 요소들을 방문하는 것을 이르는 말이다.
+
+Search 
+• search(head, x)
+• Returns node v which holds the item x
+링크드리스트에서 특정항목 x를 가진 노드를 찾아서 반환하는 함수를 의미한다.
+
+Other interesting operations
+• Join two list : 두개리스트 연결하기
+• Inverse a list : 리스트 거꾸로 linked하기
+
+
+Doubly Linked List
+단방향리스트는 한 방향으로만 탐색이 가능
+끝에 있는 요소를 삭제하기 힘들다. -> 보통 우리는 head만 알고있기 때문에 전체 순회를 해야만한다.
+그래서 생긴것이 양방향 링크드 리스트
+앞뒤 방향 모두에서 탐색이 가능하다.
+
+Circular Linked List
+• A kind of Singly Linked List -> 단반향 리스트의 일종이다..! 그렇지 양쪽으로 링크 연결이 있는게 아니니까
+• Rather than having a head or a tail, it forms a cycle
+• Cursor
+  • A virtual starting node
+  • This can be varying as we perform operations
+머리와 꼬리가 연결되어 있다. 일반적인 단방향 링크드 리스트와 오직 하나의 다른점 
