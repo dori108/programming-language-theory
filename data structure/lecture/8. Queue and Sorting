@@ -128,3 +128,34 @@ height : O(logn)
 
 시간 복잡도 : 평균 -> O(nlogn)
 최악의 경우 -> O(n^2) 
+
+
+def quick_sort(S):
+n=len(S)
+if n<2:
+return
+
+p =S.first()
+l =LinkedQueue()
+e =LinkedQueue()
+g =LinkedQueue()
+
+while not S.in_empty():
+if S.first()<p:
+l.enqueue(S.dequeue())
+elif p<S.first():
+g.enqueue(S.dequeue())
+else:
+e.enqueue(S.dequeue())
+
+quick_sort(l)
+quick_sort(g)
+
+while not l.in_empty():
+S.enqueue(l.dequeue())
+
+while not e.in_empty():
+S.enqueue(e.dequeue())
+
+while not g.in_empty():
+S.enqueue(g.dequeue())
