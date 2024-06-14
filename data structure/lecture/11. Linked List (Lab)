@@ -1,0 +1,125 @@
+• Complete the following functions
+  • print_list(): already coded
+  • insert_node(): already coded
+  • delete_node(): already coded
+  • insert_first(): already coded
+  • insert_last()
+  • search(): already coded
+  • search_prev()
+  • delete()
+  • reverse()
+
+Linked List - Implementation
+
+class Node:
+  def __init__(self, item=None,link=None):
+    self.item, self.link=item, link
+
+class LinkedList:
+  def __init__(self):
+    self.head=None
+  
+  def print_list(self):
+    node =self.head
+    print('h->',end="")
+    while node is not None:
+      print("{}->".format(node.item), end="")
+      node=node.link
+    print(None)
+
+1. Node 클래스: __init__ 메서드는 노드의 데이터를 저장하는 item과 다음 노드를 가리키는 link를 초기화합니다.
+
+2. LinkedList 클래스: __init__ 메서드는 리스트의 시작 노드인 head를 초기화합니다.
+print_list 메서드는 리스트를 순회하며 각 노드의 데이터를 출력합니다. h->로 시작하여 각 노드의 데이터를 출력하고 마지막에 None을 출력하여 리스트의 끝을 나타냅니다.
+
+
+
+Insertion Code
+
+def insert_node(self,p,new_node):
+  if self.head is None: //empty list
+    self.head = new_node
+  elif p in None: //맨 앞 삽입
+    new_node.link = self.head
+    self.head = new_node
+  else: //일반적인 상황 혹은 맨 뒤에 삽입
+    new_node.link = p.link
+    p.link = new_node
+
+
+Insert_item functions
+• insert_first(self, item)
+  • inserts item before head
+• insert_last(self, item)
+  • inserts item after tail 
+• which allows following commands:
+  • print: prints the current list
+  • ins_first <val>: inserts <val> before the head
+  • ins_last <val>: inserts <val> after the tail
+  • find <val>: finds if <val> is in the list
+  • del <val>: deletes <val> from the list
+  • reverse: reverses the list
+  • exit: terminates the program
+  
+  
+Search function
+• search(item):
+  • Finds the node holding <item>
+여기서 item은 내가 찾던 그 녀석!
+
+def search(self,item):
+  node = self.head
+  while node is not None:
+    if node.item == item:
+      return node
+    node =node.link
+  return None
+
+
+Search_prev function
+• The previous node is required for insertion and deletion
+• search_prev(item)
+  • returns node, p
+  • node: which holds the item
+  • p: the previous/parent node
+  
+Deletion
+• delete_node(head, p, removed)
+  • removed: the node to be removed
+  • p: the node previous
+• 2 situations:
+  • Deleting head node
+  • Deleting usual node
+
+
+delete_node function
+def delete_node(self,p,removed):
+  if removed == self.head:
+    self.head = removed.link
+  else:
+    p.link = removed.link
+  del removed
+ 
+• Hint
+  • Utilize delete_node function
+    • Where you must also provide the parent (p) node
+    • Utilize search_prev function to find the node with its previous/parent node
+  • If you code this correctly, you should be able to pass
+  the third test case.
+
+  
+  Reverse function
+• Reverses the item sequence
+  H→1→2→3→NULL reverses into
+  H→3→2→1→NULL
+• Note: the following code is a fragment of the reverse function in C.
+• If you code this correctly, you should be able to pass the fourth test case.
+
+while(current !=NULL){
+next = current -> next;
+current -> next =prev;
+prev = current;
+current = next;
+}
+
+
