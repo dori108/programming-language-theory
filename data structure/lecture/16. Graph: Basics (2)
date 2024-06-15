@@ -1,0 +1,147 @@
+Some Properties for Undirected Graphs
+
+Property 1
+  시그마v deg(v) = 2m
+  Proof: each edge is counted twice
+Property 2
+  In an undirected graph with no self-loops and no multiple edges
+  m =< n*(n - 1)/2
+  Proof: each vertex has degree at most (n - 1)
+What is the bound for a directed graph?
+
+Notation
+n : number of vertices
+m : number of edges
+deg(v) : degree of vertex v
+
+그래프의 성질에 대한 얘기를 하는 것.
+성질1 모든 정점의 차수의 합은 두배의 간선 수와 같다.
+-> 무방향 그래프에서 각 간선은 두 개의 정점과 연결되므로, 각 간선은 두 번 계산
+따라서 모든 정점의 차수를 합하면 간선 수의 두 배가 된다.
+
+성질2 무방향 그래프에서 간선의 수에 대한 상한
+->  자기 루프가 없고 중복 간선이 없는 무방향 그래프에서, 각 정점은 최대 n−1개의 다른 정점과 연결될 수 있다. 
+즉, 각 정점의 차수가 최대 n−1가 된다.
+
+방향 그래프에서의 상한
+정점이 존재하고 다른 정점과의 간선이 좀재한다.
+이때 간선의 수는 상한이 있다.(정점도 한정되어있기 때문이다.)
+m≤n(n−1) 라고 표현할 수 있다.
+
+4개의 노드가 있다 그런 간선의 최대 수는 6개가 된다.
+이때 최대 degree는 3이된다. (자기 자신 빼고 나머지 노드들로 뻗는 간선)
+
+
+Main Methods of the Graph ADT //그래프 추상 자료
+• Vertices (and edges)
+  • are positions //위치를 갖는다.
+  • store elements //요소를 저장할 수 있다.
+
+• Accessor methods:접근자 메소드
+  • e.endVertices(): a list of the two endvertices of e //간선 e의 두 끝 정점을 리스트로 반환한다.
+  • e.opposite(v): the vertex opposite of v on e // 간선 e에 연결된 정점 v의 반대편 끝 정점을 반환(u)
+  • u.isAdjacentTo(v): true if u and v are adjacent // 정점u와 정점v가 인접해있으면 true를 반환한다.
+
+• Update methods
+  • insertVertex(o): insert a vertex storing element o //요소 o를 저장하는 점점을 그래프에 삽입한다.(여기서 o는 거리, 위치 외의 데이터이다.)
+  • insertEdge(v, w, o): insert an edge (v,w) storing element o //정점 v와 w를 연결하는 간선 요소로 o를 저장하는 간선을 삽입한다.
+-> insertEdge(v, w, "edge1")는 v와 w를 연결하는 간선에 "edge1"이라는 데이터를 저장
+  • eraseVertex(v): remove vertex v (and its incident edges) // 정점 v와 그에 인접한 모든 간선을 제거다.
+  • eraseEdge(e): remove edge e //제거
+
+• Iterable collection methods // 반복 가능한 컬렉션 메서드
+  • incidentEdges(v): list of edges incident to v //정점 v에 인접한 모든 간선의 리스트를 반환한다. -> 간선을 리시트 형태로 반환한다.
+  • vertices(): list of all vertices in the graph //그래프에 있는 모든 전점의 리스트를 반환
+  • edges(): list of all edges in the graph // 그래프에 있는 모든 간선의 리스트 반
+
+
+그래프를 표현하는 세 가지 주요 방법: 인접 행렬(Adjacency Matrix), 인접 리스트(Adjacency List), 인시던스 리스트(Incidence List)
+1. Adjacency Matrix
+그래프의 정점간의 연결관계를 이차원 배열로 나타내는 방법이다.
+n×n 크기의 행렬로, n은 그래프의 정점 수
+각 요소 A[i][j]는 정점 i와 j 사이에 간선이 있는지 여부를 나타낸다.
+-무방향 그래프 : A[i][j] =A[j][i]
+-방향 그래프 : A[i][j]는 정점 i에서 정점 j로 가는 간선이 있는지 여부를 나타냄
+-가중치 그래프 : A[i][j]는 정점 i에서 정점 j로 가는 간선의 가중치를 나타냄
+
+2. Adjacency List
+각 정점에 연결된 정점들을 리스트로 저장하는 방법
+-무방향 그래프: 각 정점의 리스트에 연결된 모든 정점 저장
+-방향 그래프: 각 정점의 리스트에 나가는 간선의 끝 정점 저장 -> 이 방향에서 받는 노드를 저장한다.
+-가중치 그래프: 리스트의 각 항목은 (연결된 정점, 가중치) 튜플
+
+3.Incidence List
+간선을 중심으로 그래프를 표현한다.
+-무방향 그래프: 간선 리스트의 각 항목은 (정점1, 정점2) 튜플 이 항목을 요소로 리스트를 만들어 갖는다.
+-방향 그래프: 간선 리스트의 각 항목은 (시작 정점, 끝 정점) 튜플
+-가중치 그래프: 간선 리스트의 각 항목은 (시작 정점, 끝 정점, 가중치) 튜플
+
+
+Representation: 2D Array
+
+• Adjacency matrix
+  • If edge (i, j) exists, M[i][j] = 1. //정점 i에서 정점j로 가는 간선이 존재함을 나타낸다.
+    Otherwise, M[i][j] = 0 // 정점 i에서 정점j로 가는 간선이 존재하지 않음을 나타낸다.
+  • The adj. matrix for an undirected graph has zerodiagonal and is symmetric.
+-> 대각선 요소: 무방향 그래프의 경우, 자기 자신으로의 간선이 없다고 가정하면 대각선 요소는 모두 0
+-> 대칭성: 무방향 그래프에서 M[i][j]=M[j][i]가 항상 성립. 즉, 행렬은 대칭적이다.
+
+
+Representation : Adjacency List
+
+• List of adjacent vertices
+Performance
+손으로 쓰기
+v.incidentEdges(): 주어진 정점 v에 인접한 모든 간선을 반환. 인접 행렬에서 해당 정점의 행을 검사하여 간선을 찾는다.
+u.isAdjacentTo(v): 두 정점 u와 v가 인접해 있는지 확인. 인접 행렬에서 두 정점 간의 값을 검사하여 간선이 있는지 여부를 확인한다.
+
+
+Depth-First Search : 그래프에서 깊이를 우선으로 탐색하는 알고리즘
+스택, 재귀함수를 사용하여 구현한다.
+
+동작원리
+시작 정점 선택->인접 정점 탐색->재귀적 또는 스택 사용->백트래킹
+
+*인접 정점 탐색 : 현재 방문한 노드에서 방문하지 않은 정점하나를 선택한다
+**재귀적 또는 스택 사용 : 선택한 인접 정점을 시작으로 다시 dfs를 수행한다. 이 과정을 반복하여 깊이를 우선으로 탐색한다.
+***백트래킹 : 더이산 방문할 인접 정점이 없을 때 이전단계로 돌아가서 다른 경로를 탐색한다.
+
+
+Depth-First Search
+• Depth-first search (DFS) is a general technique for traversing a graph
+• Why is this traversal important?
+->DFS는 그래프에서 경로를 찾거나 특정 상태를 탐색하는 데 매우 유용한 알고리즘
+
+예시들 탐구 추가로 필요하다.
+
+• A DFS traversal of a graph G
+  • Visits all the vertices and edges of G //그래프의 모든 정점과 간선 방문하기
+  • Determines whether G is connected (how?) //그래프의 연결 여부 판단하기
+해당 정점에서 시작해 dfs가 모든 정점을 방문하면 그래프 g는 연결되어 있는데, 이 순회를 마친 후에도 방문되지 않은 정점이 남아있다면 그래프는 여러 연결요소와 엮여있는 것이다.
+  • Computes the connected components of G (how?) //그래프의 연결 요소 계산하기
+*연결요소 : 그래프 내에서 서로 경로가 있고 다른 연결요소와는 경로가 없는 정점들의 집합 
+dfs가 완료되면 방문된 모든 정점은 한 연결요소에 속하게 된다.
+  • Computes a spanning forest of G //그래프의 Spanning Forest 계산하기
+그래프의 Spanning Forest는 모든 정점을 포함하지만 사이클은 형성하지 않는 부분 그래프이다.
+
+  
+• DFS on a graph with nvertices and medges takes O(n + m) time
+• DFS can be further extended to solve other graph problems
+  • Find and report a path between two given vertices
+  • Find a cycle in the graph
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
