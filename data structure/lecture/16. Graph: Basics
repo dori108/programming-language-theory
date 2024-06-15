@@ -1,0 +1,176 @@
+Graphs: Basics
+• A graph is a pair (V, E), where
+  • V is a set of nodes, called vertices // 정점들의 집합 정점은 노드라고 불림 그래프 위에서 위치를 나타냄
+  • E is a collection of pairs of vertices, called edges // 간선들의 집합정점사이를 연결함, 노드간의 관계를 나타낸다.
+• Vertices and edges are positions and store elements
+• Example:
+  • A vertex represents an airport and stores the three-letter airport code
+  • An edge represents a flight route between two airports and stores the mileage of the route
+
+
+Edge Types
+  • Directed edge // 방향이 있네 출발 지점 오리진과 목적지가 존재함
+  • ordered pair of vertices (u,v) 
+  • first vertex u is the origin
+  • second vertex v is the destination
+  • e.g., a flight
+• Undirected edge //방향이 없고 그냥 길이를 나타냄
+  • unordered pair of vertices (u,v) 
+  • e.g., a flight route
+• Directed graph
+  • all the edges are directed
+  • e.g., flight network
+• Undirected graph
+  • all the edges are undirected
+  • e.g., route network
+  
+
+Terminology(용어)
+
+주요하게 쓰이는 용어들
+그래프(Graph): 
+정의: 정점(Vertex)들의 집합 𝑉와 간선(Edge)들의 집합 𝐸로 구성된 쌍 (𝑉,𝐸)
+예시: 𝐺=(𝑉,𝐸), 𝑉={𝐴,𝐵,𝐶}
+
+정점(Vertex):
+정의: 그래프에서의 개별적인 위치를 나타내는 점.
+예시: 공항을 나타내며, 예를 들어 'JFK', 'LAX' 등이 있습니다.
+
+간선(Edge):
+정의: 정점 간의 연결을 나타내는 선.
+예시: 두 공항 간의 비행 경로, 예를 들어 '(JFK, LAX)'.
+
+방향 그래프(Directed Graph):
+정의: 각 간선에 방향이 있는 그래프. //방향이 없고 길이만 있는 것도 있잖아.
+표기: (𝑢,𝑣) u에서 정점에서 v로의 방향을 가짐.
+예시: 웹 페이지 링크 구조.
+
+무방향 그래프(Undirected Graph):
+정의: 각 간선에 방향이 없는 그래프. //경로만 존재함 (edge)
+표기: u,v는 정점 u와 v가 상호 연결됨을 의미.
+예시: 친구 관계 네트워크.
+
+가중치 그래프(Weighted Graph):
+정의: 각 간선에 가중치(Weight)가 부여된 그래프. // 추가로 요소가 들어가 있음
+표기: 간선 (𝑢,𝑣)에 가중치 𝑤가 있음, (𝑢,𝑣,𝑤)
+예시: 도로 네트워크에서 거리나 시간.
+
+차수(Degree):
+정의: 한 정점에 연결된 간선의 수. //정점이 여러개 있으면 edge도 여러개 생길 수 있다. 그 개수가 차수이다.
+표기: 정점 𝑣의 차수는 deg(𝑣)이다.
+예시: 정점 'A'에 두 개의 간선이 연결되어 있으면, deg(𝐴)=2
+
+경로(Path):
+정의: 정점의 연속적인 나열로 각 연속된 쌍이 간선으로 연결됨. 
+표기: 𝑃=𝑣1,𝑣2,…,𝑣𝑛
+예시: 𝑃=𝐴,𝐵,𝐶는 정점 'A'에서 'B'를 거쳐 'C'로 가는 경로.
+
+사이클(Cycle):
+정의: 시작 정점과 끝 정점이 같은 경로.
+표기: 𝐶=𝑣1,𝑣2,…,𝑣𝑛,𝑣1
+예시: 𝐶=𝐴,𝐵,𝐶,𝐴는 'A'에서 시작해 'B'와 'C'를 거쳐 다시 'A'로 돌아오는 경로.
+
+연결 그래프(Connected Graph):
+정의: 모든 정점 쌍에 대해 경로가 존재하는 그래프.
+예시: 모든 도시가 도로로 연결된 지도.
+
+트리(Tree):
+정의: 사이클이 없는 연결 그래프.
+예시: 가계도, 폴더 구조.
+
+서브그래프(Subgraph):
+정의: 원래 그래프의 일부 정점과 일부 간선으로 구성된 그래프. 
+예시: 전체 도시 네트워크에서 특정 도시와 그 사이의 연결만을 포함한 그래프.
+
+
+• End vertices (or endpoints) of an edge 
+  • U and V are the endpoints of a 
+• Edges incident on a vertex 
+  • a, d, and b are incident on V 
+• Adjacent vertices 
+  • U and V are adjacent 
+• Degree of a vertex 
+  • X has degree 5 
+• Parallel edges 
+  • h and i are parallel edges 
+• Self-loop 
+  • j is a self-loop
+
+
+• Path
+  • sequence of alternating vertices and edges
+  • begins with a vertex
+  • ends with a vertex
+  • each edge is preceded and followed by its endpoints
+• Simple path
+  • path such that all its vertices and edges are distinct
+• Examples
+  • P1=(V,b,X,h,Z) is a simple path
+  • P2=(U,c,W,e,X,g,Y,f,W,d,V) is a path that is not simple
+  //돌아가는 루트 잖아 그러면 not simple 
+
+  
+• Cycle //사이클은 맞는데 좀 꼬불꼬불하게 돌아서 갈 수도 있다.
+  • circular sequence of alternating vertices and edges 
+  • each edge is preceded and followed by its endpoints
+• Simple cycle
+  • cycle such that all its vertices and edges are distinct
+• Examples
+  • C1=(V,b,X,g,Y,f,W,c,U,a,) is a simple cycle
+  • C2=(U,c,W,e,X,g,Y,f,W,d,V,a,) is a cycle that is not simple
+• Note) Tree is a graph without cycles 
+
+
+Subgraphs
+• A subgraph S of a graph G is a graph such that
+  • The vertices of S are a subset of the vertices of G //S의 정점들은 G의 정점들의 부분 집합
+  • The edges of S are a subset of the edges of G //S의 간선들은 G의 간선들의 부분 집합
+즉, S는 G의 일부 정점과 일부 간선으로 구성된 그래프
+• A spanning subgraph of G is a subgraph that contains all the vertices of G
+그래프 G의 모든 정점을 포함하는 부분그래프
+즉, G의 모든 정점을 포함하면서 일부 간선을 포함하는 부분그래프
+
+부분 그래프의 예시
+예시 1: 그래프 G가 정점 집합 V={A,B,C,D}와 간선 집합 E={(A,B),(B,C),(C,D),(D,A)}를 가지고 있다고 가정합니다.
+G'가 정점 집합 {A,B,C}과 간선 집합 {(A,B),(B,C)}를 가진다면, G'는 G의 부분그래프입니다.
+
+팽창 부분그래프
+예시: 위의 예시에서 G의 모든 정점 {A,B,C,D}를 포함하면서, 일부 간선을 포함하는 부분그래프는 G 자체입니다. 
+G는 G의 팽창 부분그래프이기도 합니다. 스스로는 스스로의 팽창 부분 그래프이다.
+
+
+Connectivity //연결성
+• A graph is connected if there is a path between every pair of vertices // 모든 정점간에 경로가 존재한다.
+• A connected component of a graph G is a maximally connected subgraph of G
+• “Maximally”?
+
+Maximally connected subgraph는 그래프 이론에서 중요한 용어이다.
+Connected Component는 그래프 G의 연결 선분은 G의 부분 그래프로 다음 두 조건을 만족한다.
+1. 이 부분 그래프는 모든 정점 사이 경로가 존재한다.
+2. 이 부분 그래프는 더 확장이 불가한다. 다른 정점이 추가되면 연결성이 깨진다.
+Maximally Connected는 한 연결 성분 내에서 더 정점, 간을 추가할 수 없다는 것을 의미한다.
+즉 최대 연결성을 가진 상태라고 표현할 수 있다.
+
+
+Trees and Forests
+
+• A (free) tree is an undirected graph T such that
+  • T is connected
+  • T has no cycles
+  This definition of tree is different from the one of a rooted tree //이 트리의 정의는 루트 트리와는 다르다.
+• A forest is an undirected graph without cycles // 즉, 여러개의 성분으로 구성되어 있으며 각 성분은 트리의 조건을 만족한다. 하나의 노드만 존재해도 포레스트라고 부
+• The connected components of a forest are trees
+
+Spanning Trees and Forests //팽창 트리와 포레스
+• A spanning tree of a connected graph is a spanning subgraph that is a tree
+//연결된 그래프의 Spanning Subgraph(팽창 부분 그래프) 중에서 그래프 자체의 모든 정점을 포함하면서 사이클이 없는 트리
+//즉, 주어진 연결된 그래프의 모든 정점을 포함하면서, 최소한의 간선을 사용하여 트리 형태로 연결하는 것이다.
+• A spanning tree is not unique unless the graph is a tree
+//그래프가 단일 연결 성분을 가진 경우, Spanning Tree는 유일하지 않을 수 있다. 여러개 만들어질 수 있다.
+• Spanning trees have applications to the design of communication networks
+//그래프의 모든 정점을 연결하지만 사이클이 없는 부분 그래프
+// n개의 정점을 가진 그래프의 Spanning Tree는 n−1개의 간선을 가진다.
+• A spanning forest of a graph is a spanning subgraph that is a forest
+//그래프의 Spanning Subgraph 중에서 사이클이 없는 무방향 그래프이다.
+//그래프의 모든 연결 성분을 트리 형태로 연결한 것
+//주어진 그래프가 여러 개의 연결된 성분으로 나뉘어 있을 때, 각 연결 성분을 트리 형태로 만들면 Spanning Forest가 된다.
