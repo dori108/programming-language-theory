@@ -1,0 +1,86 @@
+• Complete the basic Tree functions
+  • Traversal: preorder, inorder, postorder
+  • Search
+  • Insert_simple: already given in sample code
+  • Size
+
+Binary Tree
+• Each node has 2 children
+
+
+Tree: implementation
+class Node:
+  def __init__(self,item,left=None,right=None):
+    self.item=item
+    self.left=left
+    self.right=right
+
+n1 =Node(7)
+n2 =Node(5)
+root =Node(10,n1,n2)
+
+배웠었지 이 네가지 종류의 순회가 어떻게 돌아가는지를
+• Depth First Traversal
+  • Preorder: self-left-right
+  • Inorder: left-self-right
+  • Postorder: left-right-self
+• Breadth First Traversal
+  • Level Order Traversal
+
+Preorder Traversal
+
+def preorder(node):
+  if node is not None:
+    orint(node.item)
+    preorder(node.left)
+    preorder(node.right)
+
+Search(Use preorder scheme)
+• search(root, x)
+1. IF root is NONE: RETURN NONE
+현재 노드가 None인지 확인
+2. IF root.item==x: RETURN root
+현재 노드의 값이 찾고자 하는 값과 일치하는지 확인
+3. node = NONE
+4. IF root.left: node=search(root.left,x)
+왼쪽 서브트리에서 검색 수행
+5. IF node is not NONE: RETURN node
+만약 현재 노드의 왼쪽 자식 노드가 존재한다면, 왼쪽 자식 노드를 기준으로 재귀적으로 검색을 수행
+이때, 왼쪽 서브트리에서 값을 찾았다면 해당 노드를 반환
+6. IF root.right: node=search(root.right,x)
+오른쪽 서브트리에서 검색 수행
+7. RETURN node 
+왼쪽 순회와 마찬가지로 수행
+
+
+Simple Insertion
+• insert_simple(root, p, side, x): inserts x on the designated side of parent p
+• This function is given in the sample code
+• Main idea
+1. node_x = Node(x)
+값 x를 가지는 새로운 노드 node_x를 생성
+2. node_p = search(root, p)
+값 p를 가지는 부모 노드 node_p를 찾는다.
+3. IF side==left: node_p.left=node_x
+만약 side가 "left"라면, node_p의 왼쪽 자식으로 node_x를 삽입
+4. ELSE: node_p.right=node_x
+그렇지 않다면, node_p의 오른쪽 자식으로 node_x를 삽입
+
+트리의 검색을 위해 search가 이미 정의되어 있어야한다.
+
+
+Size and Height
+
+  • Use preorder traversal technique
+  • size(root)
+    • IF root is NONE: RETURN 0
+    • ELSE: RETURN 1+size(root.left)+size(root.right)
+  • height(root)
+    • Formula: 1+max(height of left subtree, height of right subtree)
+    • Note that:
+      • In the right figure,
+      • Height=2 (not 3)
+      • If only one node (root only) • Height=0 (not 1)
+      • If no node (empty tree/root is None) • Height can be considered to be (-1)
+      
+  
