@@ -1,0 +1,56 @@
+• Complete BinarySearchTree class
+  • search: (already coded)
+  • search_p
+  • insert: (already coded)
+  • preorder, postorder, inorder : (already coded)
+  • find_min_p: (already coded)
+  • replace_child: (already coded)
+  • replace
+  • delete: (already coded)
+
+• Commands:
+  • in 5: inserts key:5 into the tree
+  • del 5: deletes key:5 from the tree
+  • find 5: searches for key:5
+  • print: prints the keys in preorder and inorder traversal
+  • exit: exits the program
+
+
+Replace function for Case-I
+
+• replace_child(parent, child, new_child)
+• IF parent.left == child:
+    parent.left = new_child
+• ELSE:
+    parent.right = new_child
+
+
+How to find right_min?
+• right_min: minimum-key-node of the right subtree
+• right_min_p: <right_min>’s parent
+
+def 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
