@@ -1,0 +1,151 @@
+Priority Queue : 일반적인 큐의 방식대로 작동하는 것이 아니라 아이템에 할당된 우선순위에 따라서 처리하는 것을 의미
+  • Queue but not first-in-first-out (FIFO)
+  • Rather:
+    • Arbitrary insertion //멋대로
+    • Priority-based removal
+  • Stores item as key-value pair (k, v)
+  • Key, k: priority of the item (k는 아이템의 우선순위이고, v는 아이템의 )
+  • Example: {(5,A), (7,D), (9,C)}
+  • Dequeue ≡ Remove_min: Remove the item with the minimum key (5,A)
+
+시간 복잡도 : 𝑂(log𝑛)
+최소 힙을 사용하여 우선순위 큐를 관리하므로, insert와 remove_min 연산의 시간복잡도는 위와 같다.
+
+Priority Queue: Operation Example
+손으로 연습함
+
+
+Binary Heap
+우선순위 큐를 실행하기 위한 효율적인 자료구조로 두가지 속성이 있다.
+• An efficient structure to implement priority queue
+• Properties:
+  • Complete binary tree property : 완전 이진트리 속성
+  이는 트리의 모든 레벨이 꽉 차 있으며, 마지막 레벨의 노드들은 왼쪽부터 채워진다는 것을 의미
+  포화 이진 트리(Full Binary Tree)는 다름
+  • Heap-order property: key of any node >= key of its parent : 힙-순서 속성
+  최소 힙의 경우, 부모 노드의 키는 항상 자식 노드의 키보다 작거나 같다.
+  최대 힙의 경우, 부모 노드의 키는 항상 자식 노드의 키보다 크거나 같다.
+  여기서는 최소 힙을 기준으로 얘기하는 것 같다.
+
+
+Heap: Insertion
+• add(k, v): insert key-value pair (k, v)
+힙에서의 삽입 연산은 키-값 쌍 (k, v)를 힙에 추가하는 과정
+• Insert at the rightmost position q of the last level
+• to maintain the complete binary tree property
+새 요소를 마지막 레벨의 가장 오른쪽 위치에 삽입한다. 이를 통해 완전 이진 트리 속성을 유지
+• Perform up-heap bubbling
+• To maintain the heap-order property
+삽입된 요소가 힙-순서 속성을 위반할 수 있기 때문에, up-heap bubbling 과정을 수행하여 이 속성을 복구
+• Continue to swap with the parent node until k >= key(parent)
+삽입된 요소를 부모와 비교하여 필요시 교환
+• Worst-case running time: O(logn)
+
+완전이진트리 속성을 유지하기 위해서 리프의 가장 오른쪽 노드의 왼 위치에 새로 삽입한다.
+그러면 완전이진트리 속성이 깨지지 않는다.
+
+
+Heap: min-key deletetion
+
+• remove_min(): removes the root node
+루트 노드는 최소 키를 가지므로 힙의 최상단에 위치 -> 이 노드를 제거해서 반환해야한다.
+• To maintain the complete binary tree property:
+  • Remove the node at the last position (rightmost position of the last level) and copy it to the root (replacing the original root-item)
+  • Say: the new root is: (k, v)
+동시에 완전이진트리 속성은 유지해야한다.
+트리의 마지막 위치에 있는 노드를 제거하고 (가장 오른쪽의 노드의 왼쪽에 위치)
+이 노드를 루트 위치에 복사한다.
+• Perform down-heap bubbling : 새로운 루트 노드를 자식 노드와 비교하여 필요시 교환한다.
+  • to maintain the heap-order property
+  • Continue to swap with the minimal-key-child until k <= key(minimal-key-child)
+• Worst-case running-time: O(logn)
+비교할 때 (root를 갈아끼우고 내려올 때) 왼,오른쪽을 비교해서 더 작은 쪽의 노드랑 switch한다.
+
+Heap Bubbling의 종류
+
+업힙 버블링(Up-Heap Bubbling):
+
+새로운 노드를 힙에 삽입할 때 사용됩니다.
+새로운 노드는 힙의 마지막 위치에 추가된 후, 그 노드가 힙 속성을 만족할 때까지 부모 노드들과 비교하며 위로 이동합니다.
+이 과정은 삽입된 노드가 부모보다 작을 때까지 반복됩니다.
+
+다운힙 버블링(Down-Heap Bubbling):
+
+루트 노드를 삭제할 때 사용됩니다.
+마지막 위치에 있는 노드를 루트 위치로 이동시킨 후, 그 노드가 힙 속성을 만족할 때까지 자식 노드들과 비교하며 아래로 이동합니다.
+이 과정은 이동된 노드가 자식 노드들보다 클 때까지 반복됩니다.
+
+시간 복잡도 : O(logn)
+
+
+Binary Search Tree (BST)
+• a binary tree with each node storing a key-value pair (k, v) such that:
+  • Keys of its left subtree are < k
+  • Keys of its right subtree are > k
+  
+BST: Search
+• search(root, k): searches the node storing key k.
+  • if k == root.key:
+     • return root
+  • elif k < root.key and left subtree exists
+    • return search(root.left, k)
+  • elif k > root.key and right subtree exists
+    • return search(root.right, k)
+  • Else:
+    • return None(unsuccessful search)
+
+BST: Search parent also
+• search_p(root, k): finds the node with key k and its parent
+• Similar process but use loop instead of recursion
+• Initialize:
+  • node=parent=root
+• Loop:
+  • If node is None: Break
+  • If k==node.key: Break
+  • parent=node
+  • If k<node.key and left subtree exists: node=node.left
+  • If k>node.key and right subtree exists: node=node.right
+  • Return node, parent
+
+
+BST: Insertion
+• insert(root, k, v): inserts the key-value pair (k,v)
+• Insertion process:
+  • node, p = search_p(root, k, v)
+주어진 키를 찾거나 적절한 삽입 위치를 찾는다.
+트리 탐색 -> 주어진 키가 이미 존재하는지 확인
+  • if k==node.key: # key already exists
+    • Update node.value to v
+존재하면 바로 반환 존재하지 않으면 밑의 프로세스에 따라 적절한 위치에 집어 넣는다.
+  • if k<p.key:
+    • Insert (k,v) to the left of p
+  • if k>p.key:
+    • Insert (k,v) to the right of p
+
+
+BST: Deletion
+
+• delete(root, k): removes the node storing key k
+• Search the node and its parent p using search_p
+• Deleting node is not as simple as insertion
+  • Insertion: always done as leaf nodes
+  • Deletion: can be for any nodes
+• Two scenario:
+  • node has atmost (≤) one child
+  • node has two children
+
+  • Case-I: node has atmost (≤) one child
+    • Delete node and link its child to the parent
+    (i.e, bring the child in node’s position)
+  • Note: this case also generalizes the no-child case
+  
+  • Case-II: node has both left and right child
+    • To delete and replace node,
+    • bring the largest-key-node from the left-subtree
+    • Or, the smallest-key-node from the right-subtree
+
+
+Running Time
+• Depends on tree height
+• Best-case height: log(n)
+• Worst-case height: n
