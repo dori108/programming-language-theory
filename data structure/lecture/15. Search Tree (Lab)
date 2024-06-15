@@ -29,28 +29,217 @@ How to find right_min?
 • right_min: minimum-key-node of the right subtree
 • right_min_p: <right_min>’s parent
 
-def 
+def find_min_p(root,p):
+  while root.left is not None:
+    p=root
+    root=root.left
+  return root,p
+
+right_min, right_min_p =find_min_p(node.right,node)
 
 
+How to replace node during deletion?
+• replace(node, rep_node, p, rep_p):
+replace <node> with <rep_node>"""
+# p : <node>의 부모
+# rep_p : <rep_node>의 부모
+
+노드를 삭제하는 과정은 크게 세가지로 나뉜다.
+
+A. Replace p-to-node link:
+부모 노드 p의 자식 노드가 node에서 rep_node로 변경됩니다.
+B. Replace node-to-child(s) link(s):
+node의 자식 노드들이 rep_node의 자식 노드로 설정됩니다.
+C. Remove <rep_p>-to-<rep_node> link:
+대체 노드 rep_node가 원래 위치에 있을 때의 부모 노드 rep_p와의 링크를 제거합니다.
+
+상세하게는 3가지를 고려해야하는데 
+1. 노드가 리프 노드(자식 노드가 없음)인 경우:
+노드를 단순히 삭제
+
+2. 노드가 자식 노드를 하나만 가지는 경우:
+자식 노드와 부모 노드를 직접 연결
+
+3. 노드가 두 개의 자식 노드를 가지는 경우:
+이 경우 대체 노드(replacement node)를 찾아야 
+일반적으로 삭제할 노드의 왼쪽 서브트리에서 가장 큰 노드(또는 오른쪽 서브트리에서 가장 작은 노드)를 대체 노드로 사용
+대체 노드를 삭제할 노드 위치로 옮기고, 대체 노드의 자식 노드들을 적절히 재배치
 
 
+A. Replace p-to-node link
+• Case-1: Node is root/p is None
+  • self.root = rep_node
+• Case-2: otherwise
+  • self.replace_child(p, node, rep_node)
+-> 부모 노드 p와 삭제할 노드 node, 그리고 대체 노드 rep_node를 이용하여 부모 노드의 자식을 교체
 
 
+B. Replace node-to-child(s) link(s)
+• Case-1: rep_node is node’s child / node == rep_p
+  • rep_node.left = node.left
+-> rep_node가 node의 왼쪽 자식이기 때문에 rep_node.right는 변경할 필요가 없음
+• Case-2: otherwise
+  • rep_node.left = node.left
+  • rep_node.right = node.right
+  • CAUTION: rep_node.right might exist
+    • Therefore, before updating rep_node.right,
+    • You should bring rep_node.right in rep’s position using replace_child() function.
+-> replace_child 함수를 사용하여 rep_node.right를 rep_node의 원래 위치에 배치
+이때 주의 사항은 rep_node.right가 존재할 경우 이를 처리해줘야한다는 것이다.
+rep_node가 원래 자리에서 다른 노드로 교체되기 전에, rep_node.right를 rep_node의 원래 위치로 이동시켜야 다.
+이를 위해 replace_child(rep_p, rep_node, rep_node.right) 함수를 사용하여 rep_p의 자식 노드를 rep_node.right로 교체하면 node.right가 이미 존재하는 경우에도 적절한 수행이 가능하다.
 
 
+C. Remove <rep_p> to <rep_node> link
+• rep_p.left = None
+• If you handle rep_node.right cleverly (step B- case 2), you might not need to remove rep_p.left link.
 
 
+Replace p-to-node link:
+p가 None인 경우(즉, node가 루트인 경우) 루트를 rep_node로 설정합니다.
+그렇지 않은 경우 replace_child 함수를 사용하여 p의 자식 노드를 rep_node로 교체합니다.
+Replace node-to-child(s) link(s):
+rep_node가 node의 자식인 경우, rep_node.left를 node.left로 설정합니다.
+그렇지 않은 경우, rep_node.left를 node.left로 설정하고 rep_node.right가 존재할 경우 이를 rep_node의 원래 위치로 이동시킵니다. 
+이 작업을 위해 replace_child 함수를 사용하여 rep_node.right를 rep_node의 원래 위치로 이동시킨 후 rep_node.right를 node.right로 설정합니다.
+Remove <rep_p>-to-<rep_node> link:
+만약 rep_p.left가 rep_node라면, rep_node를 node의 자식으로 이동시키기 때문에 rep_p.left를 None으로 설정할 필요가 없습니다.
 
 
+이 삭제에 대한 이해가 부족하다.... 안돼!
+
+BST에서의 삭제 과정
+1. 자식이 없는 경우(리프 노드)
+2. 자식이 하나만 있는 경우
+3. 자식이 두개 있는 경우
+
+1. -> 가장 쉬운 경우
+리프노드를 삭제하는 것은 가장 간단해 그냥 삭제하고 끝
+
+2. -> 자식이 하나만 있는 경우
+삭제할 노드의 부모가 삭제할 노드의 자식을 가리키게하면 된다.
+
+3. -> 자식이 두 개 있는 경우에는 두 가지 방법이 있는데
+(1) 오른쪽 서브트리에서 가장 작은 노드를 찾는 방법
+(2) 왼쪽 서브트리에서 가장 큰 노드를 찾는 방법
 
 
+예제 코드
+class Node:
+    def __init__(self, key=None, value=None, left=None, right=None):
+        self.key = key
+        self.value = value
+        self.left = left
+        self.right = right
 
+class BST:
+    def __init__(self):
+        self.root = None
 
+    def search_p(self, root, k):
+        parent = None
+        current = root
+        while current is not None:
+            if k == current.key:
+                return current, parent
+            parent = current
+            if k < current.key:
+                current = current.left
+            else:
+                current = current.right
+        return None, parent
 
+    def insert(self, k, v):
+        node, parent = self.search_p(self.root, k)
+        if node is not None:  # key already exists
+            node.value = v
+        else:
+            new_node = Node(k, v)
+            if parent is None:  # tree is empty
+                self.root = new_node
+            else:
+                if k < parent.key:
+                    parent.left = new_node
+                else:
+                    parent.right = new_node
 
+    def replace_child(self, parent, old_child, new_child):
+        if parent.left == old_child:
+            parent.left = new_child
+        else:
+            parent.right = new_child
 
+    def replace(self, node, rep_node, p, rep_p):
+        # A. Replace p-to-node link
+        if p is None:  # node is root
+            self.root = rep_node
+        else:
+            self.replace_child(p, node, rep_node)
 
+        # B. Replace node-to-child(s) link(s)
+        if rep_node:
+            if node == rep_p:
+                # Case-1: rep_node is node's child
+                rep_node.left = node.left
+            else:
+                # Case-2: otherwise
+                rep_node.left = node.left
+                if rep_node.right:  # rep_node.right exists
+                    self.replace_child(rep_p, rep_node, rep_node.right)
+                rep_node.right = node.right
 
+        # C. Remove <rep_p>-to-<rep_node> link
+        # If rep_node is already managed in step B, we might not need to do anything here
+        if rep_p and rep_p != node and rep_p.left == rep_node:
+            rep_p.left = None
 
+    def delete(self, k):
+        node, parent = self.search_p(self.root, k)
+        if node is None:
+            return  # Node to be deleted not found
 
+        if node.left is None or node.right is None:
+            # Node with 0 or 1 child
+            child = node.left if node.left else node.right
+            if parent is None:
+                self.root = child
+            else:
+                self.replace_child(parent, node, child)
+        else:
+            # Node with 2 children
+            rep_node, rep_parent = self._find_max(node.left)
+            self.replace(node, rep_node, parent, rep_parent)
 
+    def _find_max(self, root):
+        parent = None
+        current = root
+        while current.right is not None:
+            parent = current
+            current = current.right
+        return current, parent
+
+    def print_tree(self, node, level=0, prefix="Root: "):
+        if node is not None:
+            print(" " * (level * 4) + prefix + f"({node.key}, {node.value})")
+            if node.left:
+                self.print_tree(node.left, level + 1, "L--- ")
+            if node.right:
+                self.print_tree(node.right, level + 1, "R--- ")
+
+# 사용 예시
+bst = BST()
+bst.insert(10, 'A')
+bst.insert(5, 'B')
+bst.insert(15, 'C')
+bst.insert(3, 'D')
+bst.insert(7, 'E')
+bst.insert(12, 'F')
+bst.insert(18, 'G')
+bst.insert(6, 'H')
+
+print("Initial tree:")
+bst.print_tree(bst.root)
+
+bst.delete(5)
+print("\nAfter deleting node with key 5:")
+bst.print_tree(bst.root)
