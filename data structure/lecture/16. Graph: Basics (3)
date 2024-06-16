@@ -1,0 +1,125 @@
+DFS and Maze Traversal 
+The DFS algorithm is similar to a classic strategy for exploring a maze
+그냥 그렇다궁
+
+
+Properties of DFS
+
+Property 1
+DFS(G, v) visits all the vertices and edges in the connected component of v
+
+Property 2
+The discovery edges labeled by DFS(G, v) form a spanning tree of the connected component of v
+a spanning tree = 사이클이 없는 트리
+
+주어진 연결 그래프
+A - B - C
+|   |   |
+D - E - F
+가능한 스패님 트리
+A - B - C
+|     |
+D     E
+
+A - B - C
+|
+D - E
+
+등
+
+Analysis of DFS
+
+• Setting/getting a vertex/edge label takes O(1) time
+• Each vertex is labeled twice
+  • once as UNEXPLORED
+  • once as VISITED
+• Each edge is labeled twice
+  • once as UNEXPLORED
+  • once as DISCOVERY or BACK
+• Method incidentEdges is called once for each vertex
+  • Complexity of v.incidentEdges: deg(v)
+• DFS runs in O(n + m) time provided the graph is represented by the adjacency list structure
+  • Recall that Sv deg(v) = 2m //모든 정점의 차수의 합이 2m과 같음을 의미
+두번씩 탐색하기 때문에 2m이 되는 것이다.
+
+
+Path Finding(경로 찾기 - dfs를 이용한)
+
+We can specialize the DFS algorithm to find a path between two given vertices u and z using the template method pattern
+We call DFS(G, u) with u as the start vertex
+We use a stack S to keep track of the path between the start vertex and the current vertex
+As soon as destination vertex z is encountered, we return the path as the contents of the stack
+-> 시작 정점 u를 입력으로 DFS를 호출
+경로를 추적하기 위해 스택 S를 사용. 이 스택은 시작 정점에서 현재 정점까지의 경로를 저장
+탐색 중에 목적지 정점 z를 만나면, 스택의 내용을 경로로 반환
+
+
+Algorithm pathDFS(G, v, z)
+
+v.setLabel(VISITED) // 시작 정점에 방문했음을 표
+S.push(v) // 현재 정점 v를 스택 추가
+if v = z 
+  return S.elements() // 현재 정점이 목적지와 같으면 스택의 내용을 반환(경로가 된다.)
+for all e in v.incidentEdges() // 정점 v에 인접한 모든 간선을 순회한다.
+  if e.getLabel() = UNEXPLORED // 간선이 미탐색 상태이면 반대편의 정점으로 넘어간다.
+    w <- e.opposite(v)
+    if w.getLabel() = UNEXPLORED
+      e.setLabel(DISCOVERY) //w가 미탐색 이면 e는 이제 방문 상태로 바꿔주고 스택에 넣는다.
+      S.push(e)
+      pathDFS(G, w, z) // 재귀적으로 dfs를 호출하여 같은 작업을 반복한다.
+      S.pop(e)
+    else
+      e.setLabel(BACK) //이미 탐색된 상황이라면 백 간선으로 표시하고 넘어간다.
+S.pop(v) //모든 간선 탐색후 현재 간선 스택에서 제거
+
+
+Cycle Finding(순환 찾기 - dfs를 이용하여)
+
+• We can specialize the DFS algorithm to find a simple cycle using the template method pattern
+• We use a stack S to keep track of the path between the start vertex and the current vertex
+• As soon as a back edge (v, w) is encountered, we return the cycle as the portion of the stack from the top to vertex w
+
+Algorithm cycleDFS(G, v, z)
+
+v.setLabel(VISITED) //시작 정점 v를 방문했음을 표시
+S.push(v) //현재 정점 v를 스택 S에 추가
+for all e in v.incidentEdges() //정점 v에 인접한 각 간선 e에 대해 반복
+  if e.getLabel() = UNEXPLORED //간선이 미탐색 상태
+    w <- e.opposite(v) //간선의 반대쪽 정점 w를 가져온다.
+    S.push(e) //현재 탐색 경로에 e 추가
+    if w.getLabel() = UNEXPLORED // w가 미탐색 상태라면
+      e.setLabel(DISCOVERY) //간선을 탐색 상태로 표시
+      pathDFS(G, w, z)
+      S.pop(e)
+    else //w가 방문 상태라면
+      T <- new empty stack  //새로운 스택을 만들고 
+      repeat
+        o <- S.pop()
+        T.push(o)
+    until o = w //스택 S에서 정점 w까지의 경로를 추적한다. 이는 정점 v에서 정점 w로 가는 경로를 찾은 것이다.
+    return T.elements()
+S.pop(v)
+
+
+예시
+A - B
+|   |
+C - D
+
+시작 정점 A에서 시작합니다.
+A에서 B로 이동하고 스택에 A,B를 추가합니다.
+B에서 D로 이동하고 스택에 A,B,D를 추가합니다.
+D에서 C로 이동하고 스택에 A,B,D,C를 추가합니다.
+C에서 A로 이동하면서 스택에 A,B,D,C,A를 추가합니다.
+...
+이 과정에서 
+C에서 A로 이동하며 스택의 내용이 A,B,D,C,A가 되므로, 이 부분을 순환 경로로 인식하고 반환합니다: [A,B,D,C,A].
+
+
+
+
+
+
+
+
+
