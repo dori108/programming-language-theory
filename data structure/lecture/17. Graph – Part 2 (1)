@@ -1,0 +1,340 @@
+Breadth-First Search
+• Breadth-first search (BFS) is another general technique for traversing a graph
+
+예시에대한 공부 필요
+• A BFS traversal of a graph G
+• Visits all the vertices and edges of G
+• Determines whether G is connected
+• Computes the connected components of G
+• Computes a spanning forest of G
+
+• BFS on a graph with nvertices and medges takes O(n + m) time
+• BFS can be further extended to solve other graph problems
+  • Find and report a path between two given vertices
+  • Can label each vertex by the length of a shortest path (in terms of # of edges) from the start vertex s
+  • Find a simple cycle, if there is one
+
+
+BFS Algorithm(너비 우선 탐)
+• The algorithm uses a mechanism for setting and getting “labels” of vertices and edges
+
+
+Algorithm BFS(G)
+Input : graph G
+Output : labeling of the edges and partition of the vertices of G
+
+for all u in G.vertices() 
+  u.setLabel(UNEXPLORED)
+for all e in G.edges()
+  e.setLabel(UNEXPLORED)
+for all v in G.vertices()
+if v.getLabel() = UNEXPLORED
+  BFS(G, v)
+
+모든 정점과 간선들을 미방문 상태로 설정해둔다.
+모든 정점에 대해 bfs를 수행한다.
+
+Algorithm BFS(G, s)
+
+L0 <- new empty sequence //빈 공간 생성
+L0.insertBack(s) //시작 정점 s를 시퀸스 뒤쪽에 추가
+s.setLabel(VISITED) // 추가했으니 방문됨 상태로 변경해둔다.
+i <- 0 //초기화
+while  Li.empty() // 반복적으로 수행
+Li +1 <- new empty sequence //새로운 빈 시퀸스를 추가
+for all v in Li.elements() // 모든 정점에 대해 반복 수행
+  for all e in v.incidentEdges()
+    if e.getLabel() = UNEXPLORED
+      w <- e.opposite(v)
+      if w.getLabel() = UNEXPLORED
+        e.setLabel(DISCOVERY)
+        w.setLabel(VISITED)
+        Li +1.insertBack(w)
+      else
+        e.setLabel(CROSS)
+i <- i +1
+
+
+이런 방식으로 bfs는 시작 정점을 기준으로 너비 우선 그래프를 탐색한다.
+간선, 정점을 레이블링 할 수 있고 그래프를 분할할 수 있다.
+이 알고리즘의 핵심 특징은 시작 정점으로부터 가까운 정점을 우선적으로 탐색하고 탐색한 경로를 큐에 저장하여 너비 우선으로 탐색하는 것이다.
+
+
+Li+1.insertBack(w) 설명
+BFS 알고리즘에서 Li는 현재 탐색할 정점들이 저장된 큐(또는 시퀀스)
+BFS는 너비 우선 탐색을 수행하므로, 같은 깊이의 모든 정점들을 한 번에 처리한 후 다음 깊이의 정점들을 처리해야 한다. 
+따라서 Li+1은 다음 탐색 단계에서 처리할 다음 깊이의 정점들을 저장하기 위한 새로운 시퀀스이다. 
+이 시퀀스에는 현재 깊이에서 발견된 모든 정점들의 인접 정점들이 추가됩니다.
+
+i <- i + 1 설명
+반복문 내에서 i는 현재까지 탐색한 깊이를 나타내는 변수
+BFS 알고리즘에서는 한 번의 반복이 한 깊이의 모든 정점들을 처리하는 것을 의미
+즉, Li에 있는 모든 정점들을 처리하고 나면, 다음 깊이의 정점들을 처리하기 위해 Li+1을 새롭게 초기화
+이후에는 i를 1 증가시켜서 다음 깊이로 넘어감을 나타낸다.
+
+
+Properties
+
+Notation Gs
+: connected component of s
+
+Property 1
+BFS(G, s) visits all the vertices and edges of Gs
+
+Property 2
+The discovery edges labeled by BFS(G, s) form a spanning tree Ts of Gs
+-> BFS(G, s)에 의해 레이블링된 Discovery 간선은 Gs의 Spanning Tree Ts를 형성합니다
+BFS 실행 중 "DISCOVERY"로 레이블링된 간선들은 Gs의 Spanning Tree Ts를 형성
+Gs의 Spanning Tree는 Gs의 모든 정점을 포함하며 트리 구조를 갖습니다 (즉, 비순환적이고 연결된 구조)
+
+Property 3
+For each vertex v in Li 
+  • The path of Ts from s to v has i edges 
+-> Ts에서 s에서 v로 가는 경로는 i개의 간선을 가집니다
+이는 Spanning Tree Ts에서 시작 정점 s에서 Li의 각 정점 v로 가는 최단 경로가 i개의 간선으로 이루어져 있음을 의미
+  • Every path from s to v in Gs has at least i edges (i.e., find a shortest path)
+-> Gs에서 s에서 v로 가는 모든 경로는 적어도 i개의 간선을 가집니다 (즉, 최단 경로를 찾습니다)
+이 속성은 BFS가 시작 정점 s에서 Gs 내의 모든 다른 정점 v로의 최단 경로(간선의 최소 수)를 찾는다는 점을 보장합니다.
+
+쉽게말해
+i=0: 시작 정점 s 자체이므로, s에서 s로의 경로는 0개의 간선을 가집니다.
+i=1: s에서 Ts의 다음 레벨에서 발견된 정점들까지의 경로는 1개의 간선을 가집니다.
+i=2: s에서 Ts 의 두 번째 레벨에서 발견된 정점들까지의 경로는 2개의 간선을 가집니다.
+
+
+Analysis(dfs와 같은)
+• Setting/getting a vertex/edge label takes O(1) time
+• Each vertex is labeled twice
+  • once as UNEXPLORED
+  • once as VISITED
+• Each edge is labeled twice
+  • once as UNEXPLORED
+  • once as DISCOVERY or CROSS
+• Each vertex is inserted once into a sequence Li
+• Method incidentEdges is called once for each vertex // incidentEdges메소드는 각 정점당 한번 호출된다.
+• BFS runs in O(n + m) time provided the graph is represented by the adjacency list structure
+• Recall that 시그마v deg(v) = 2m
+
+Applications(해결할 수 있는 문제들)
+• Using the template method pattern, we can specialize the BFS traversal of a graph G to solve the following problems in O(n + m) time
+• Compute the connected components of G // 그래프의 연결요소 계산
+• Compute a spanning forest of G // spanning forest 계산
+• Find a simple cycle in G, or report that Gis a forest // 간단한 사이클 찾기 또는 forest 여부보고
+• Given two vertices of G, find a path in G between them with the minimum number of edges, or report that no such path exists
+// 두정점 사이 최소 간선 경로 찾기
+
+
+
+DFS vs. BFS
+Spanning forest, connected components, paths, cycles : both
+Shortest paths : bfs only
+Biconnected components: dfs only
+
+* Biconnected components (이중연결요)
+- Connected
+- Even after removing anyvertex the graph remainsconnected
+-> 그래프에서 삭제하더라도 여전히 연결된 상태를 유지하는 서브그래프
+   즉, 이 서브그래프는 적어도 두 개의 연결된 경로가 존재하는 구성 요소이다.
+dfs는 각 정점을 한번 방문하고 간선도 한번씩 방문하기 때문에 각 정점에 대해 사이클을 찾을 수 있다.
+이 정보를 활용하여 Biconnected components도 알아낼 수 있다.
+그러나 추가적으로 다음과 같은 작업이 필요하다.
+
+1. DFS Tree: DFS 실행 중 각 간선의 분류(Discovery, Back 등)를 기록한다. 이 정보를 사용하여 각 정점의 깊이(DFS 순서)를 기록할 수 있다.
+2. Low Values 계산: 각 정점에서 자식 노드로 이어지는 Back Edge에 대한 Low Value를 계산한다. 이를 통해 각 정점에서 부모 노드를 통해 갈 수 있는 가장 높은 정점의 깊이를 확인할 수 있다.
+3. Bridge Edge 검사: 간선이 Bridge Edge(단절 간선)인지 확인하여, Bridge Edge가 아닌 경우 Biconnected Component를 형성다.
+
+
+*1,2번을 통해서 단절요소를 찾을 수 있긴한데, 교수님이 우리에게 이정도 까지 요구할까 싶은 마음이 들긴한다.
+
+
+DFS vs. BFS (cont.)
+Back edge (v,w)
+• w is an ancestor of v in the tree of discovery edges
+
+Cross edge (v,w)
+• w is in the same level as vor in the next level
+
+깊이 우선 탐색 (DFS)
+깊이 우선 탐색은 특정한 시작 정점에서 출발하여 가능한 한 멀리까지 탐색을 진행한 후, 더 이상 진행할 수 없을 때 되돌아오는 방식의 그래프 탐색 알고리즘
+트리 간선 (Tree Edge): 간선 (v, w)가 트리 간선인 경우, 정점 w가 처음 발견되고, 정점 v의 자식 노드인 경우
+백 엣지 (Back Edge): 간선 (v, w)가 백 엣지인 경우, 정점 w가 정점 v의 조상인 경우
+DFS 탐색 중 현재 정점에서 더 이상 탐색할 수 없어서 되돌아가면서 발생할 수 있다.
+
+너비 우선 탐색 (BFS)
+너비 우선 탐색은 시작 정점에서 가까운 정점부터 차례대로 탐색하는 그래프 탐색 알고리즘
+수평 간선 (Cross Edge): 간선 (v, w)가 수평 간선인 경우, 정점 w가 정점 v와 같은 레벨에 있거나 다음 레벨에 있을 수 있다. 
+BFS에서는 같은 레벨에 있는 정점들을 모두 방문한 후에 다음 레벨의 정점들을 방문다.
+
+
+예시
+   A
+ / | \
+B  C  D
+|     |
+E     F
+
+트리 간선 (Tree Edge): DFS 탐색 과정에서 정점 A에서 시작하여 B, E로 진행할 때, (A, B), (B, E)와 같이 발생하는 간선
+B와 E는 A의 자손이고, 처음 발견된 정점들
+백 엣지 (Back Edge): DFS 탐색 중에 정점을 방문하고, 그 정점에서 더 이상 진행할 수 없어 되돌아갈 때 발생하는 간선
+예를 들어, A → B → E에서 E → B로 되돌아가는 경우 (E, B)와 같은 간선이 백 엣지가 된다.
+
+수평 간선 (Cross Edge): BFS 탐색 중 같은 레벨에 있는 정점들 사이에서 발생하는 간선. 
+예를 들어, A에서 시작하여 B, C, D를 탐색할 때, (B, C), (B, D)와 같은 간선은 수평 간선
+BFS는 한 레벨의 모든 정점을 방문한 후 다음 레벨의 정점들을 방문하기 때문에, 같은 레벨의 정점들 사이에는 수평 간선이 발생.
+
+
+Shortest Paths
+
+Weighted Graphs
+• In a weighted graph, each edge has an associated numerical value, called the weight of the edge
+• Edge weights may represent, distances, costs, etc.
+• Example:
+  • In a flight route graph, the weight of an edge represents the distance in miles between the endpoint airports
+
+
+Shortest Paths
+
+• Given a weighted graph and two vertices u and v, we want to find a path of minimum total weight between u and v.
+  • Length of a path is the sum of the weights of its edges.
+• Example:
+  • Shortest path between Providence and Honolulu
+• Applications
+  • Internet packet routing
+  • Flight reservations
+  • Driving directions
+
+
+Shortest Path Properties
+
+Property 1:
+A subpath of a shortest path is itself a shortest path
+// 최단 경로의 부분 경로도 최단 경로이다.
+정점 A에서 정점 B까지의 최단 경로가 존재할 때, 이 경로의 어떤 부분 경로도 A와 B 사이의 최단 경로이다.
+부분 경로가 더 짧은 경로보다 길다면 초기 가정(더 긴 경로가 최단 경로)을 부정하게 된다.
+최단 경로의 부분 경로는 어느 경우라도 역시 최단 경로이다.
+*정점 A에서 정점 B로 가는 경로가 A → C → D → B라고 하면, 여기서 A → C 또는 C → D 또는 D → B와 같은 부분들이 부분 경로
+
+Property 2:
+There is a tree of shortest paths from a start vertex to all the other vertices
+//시작 정점으로부터 모든 다른 정점까지의 최단 경로는 최단 경로 트리를 형성한다.
+*Shortest Path Tree, SPT
+
+Example:
+Tree of shortest paths from Providence (PVD)
+
+
+Our goal and Initial Ideas
+• Goal
+  • Given a source vertex s, compute the shortest paths to all other vertices
+• Initial Ideas
+  • Compute all the paths from the source s to other vertices
+  • Take the minimums
+  • How much complexity?
+   • Exponential (not a polynomial time algorithm)
+  • Why is this algorithm stupid?
+   • Ignore the wisdom from computing the minimum path for computing other minimum paths
+
+
+다익스트라 알고리즘 동작 단계:
+초기화: 시작 정점에서부터 각 정점까지의 최단 거리를 무한대로 설정
+시작 정점 자신의 최단 거리는 0으로 설정
+우선순위 큐를 사용하여 시작 정점을 우선순위 큐에 넣는다.
+
+반복 (Relaxation): 우선순위 큐에서 가장 최단 거리가 짧은 정점을 하나씩 꺼낸다.
+이 정점과 인접한 각 정점에 대해, 시작 정점을 거쳐서 가는 경로가 기존에 알고 있던 최단 거리보다 더 짧으면 해당 경로를 업데이트하고, 우선순위 큐에 넣는다.
+이 과정에서 우선순위 큐는 항상 최단 거리를 가진 정점부터 꺼내 처리하므로, 가장 짧은 경로를 먼저 찾아가게 된다.
+
+
+Dijkstra’s Algorithm
+
+• The distance of a vertex v from a vertex s is the length of a shortest path between s and v
+-> 정점 v에서 정점 s까지의 거리는 s와 v 사이의 최단 경로의 길이
+• Dijkstra’s algorithm computes the distances of all the vertices from a given start vertex s
+-> 주어진 시작 정점 s에서 모든 다른 정점까지의 최단 거리를 계산
+• Assumptions:
+  • the graph is connected
+  • the edges are undirected //무방향 그래
+  • the edge weights are nonnegative // 비음수 가중
+ 
+• We grow a “cloud” of vertices, beginning with sand eventually covering all the vertices
+• Remember the “wisdom” //한번 계산한 최단 경로 정보를 활용하여 더 효율적으로 다음 정점까지의 최단 경로를 찾아간다.
+즉, 이미 계산된 경로를 다시 계산하지 않는다.
+• Example
+  • What is your distance to ”Obama” in facebook? 50
+  • Suppose that MoonJaeinbecomes your friend
+  • What is your distance to “Obama” then?
+  • Probably much shorter than 50. Maybe 2? 
+
+
+진행을 하다가 
+a->b 1
+a->c 2
+a->d 3
+중 선택 b(최단거리이기 때문에)를 했다고 하자
+
+b->c 4
+b->d 5
+b->e 4
+b->f 6
+가 있을 때 이 모든 경우를 확인 한 후에 
+a->b
+a->c
+a->d
+와 비교해서 a 경로에 더 짧은 경로가 있는 경우 b에서 연속해서 경로를 따르지 않고 a경로를 따른다.
+뒤에 숫자를 거리라고 하면 a->b 1 다음에 선택될 것은 a->c 2일 것이다.
+
+
+• We store with each vertex va label d(v) representing the distance of v from s in the subgraph consisting of the cloud and its adjacent vertices
+-> 각 정점 v에 대해 시작 정점 s로부터의 거리를 나타내는 레이블 d(v)를 저장 
+• At each step
+  • We add to the cloud the vertex u outside the cloud with the smallest distance label, d(u) 
+  -> 클라우드 외부에서 클라우드에 포함되지 않은 정점 u 중에서 거리 레이블 d(u)가 가장 작은 정점을 선택하여 클라우드에 추가
+  • We update the labels of the vertices adjacent to u
+  -> 선택된 정점 𝑢 인접 정점들의 레이블 d(v)를 업데이트
+예를 들어, d(v)를 d(v)와 d(u)+w(u,v) 중 작은 값으로 업데이트
+여기서 w(u,v)는 정점 u에서 정점 v로 가는 간선의 가중치이다.
+  • Greedy method: we solve the problem at hand by repeatedly selecting the best choice from among those available in each iteration
+  
+
+Edge Relaxation (간선의 완화)
+• Consider an edge e = (u,z) such that
+• u is the vertex most recently added to the cloud
+• z is not in the cloud
+-> 특정 간선 e=(u,z)에 대해 정점 z의 거리 d(z)를 업데이트하는 과정
+
+• The relaxation of edge e updates distance d(z) as
+follows: d(z) <- min{d(z),d(u) + weight(e)}
+
+여기서 
+d(z): 정점 z의 현재 최단 거리입니다.
+d(u): 정점 u의 현재 최단 거리입니다.
+weight(e): 간선 e의 가중치입니다.
+
+위의 업데이트는 클라우드에 추가된 정점 u를 거쳐 정점 z로 가는 경로가 기존의 z의 최단 경로보다 더 짧은 경우에만 d(z)를 업데이트 한다.
+
+
+1. 간선의 완화 과정에서 u를 고려하는 경우
+다익스트라 알고리즘에서 특정 간선 e=(u,z)를 통해 정점 z의 거리 d(z)를 업데이트할 때 u를 고려하는 것의 중요성
+(1)현재까지의 최단 경로를 유지: u를 경유해서 정점 z까지 가는 경로가 기존의 z의 최단 경로보다 더 짧은 경우에만 d(z)를 업데이트
+이는 현재까지 발견된 최단 경로를 유지하면서 최단 경로를 찾아가는 원칙을 따른다.
+(2)클라우드의 확장: u가 클라우드에 추가된 최근의 정점이므로, 이 정점을 경유해서 z까지의 거리를 업데이트하면서 클라우드가 확장
+이 과정에서는 u와 z 사이의 최단 경로가 점진적으로 발견되고 개선된다.
+
+2. u를 고려하지 않는 경우
+만약 간선의 완화 과정에서 u를 고려하지 않는다면, z까지의 거리를 업데이트할 때 u를 거쳐가지 않고 직접적으로 가는 경로만 고려
+이 경우에는 문제가 발생할 수 있다
+
+
+Recall: Priority Queue ADT
+• A priority queue stores a collection of entries
+• Typically, an entry is a pair (key, value), where the key indicates the priority
+• Main methods of the Priority Queue ADT
+  • insert(e) : inserts an entry e
+  • removeMin() : removes the entry with smallest key
+• Additional methods
+  • min() : returns, but does not remove, an entry with smallest key
+  • size(), empty()
+
+
+
+Dijkstra’s Algorithm은 시험 범위가 아니긴 한데 shortest 하려면 조금 알고있긴 해야해서 하는 것임
