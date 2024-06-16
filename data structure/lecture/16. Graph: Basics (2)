@@ -125,23 +125,101 @@ dfs가 완료되면 방문된 모든 정점은 한 연결요소에 속하게 된
 그래프의 Spanning Forest는 모든 정점을 포함하지만 사이클은 형성하지 않는 부분 그래프이다.
 
   
-• DFS on a graph with nvertices and medges takes O(n + m) time
-• DFS can be further extended to solve other graph problems
-  • Find and report a path between two given vertices
-  • Find a cycle in the graph
+• DFS on a graph with n vertices and m edges takes O(n + m) time
+-> 각 정점은 한번씩 방문된다. 정점을 방문하는데에는 O(n)의 시간이 걸린다.
+각 간선은 정확히 두번 검사된다.(양방향 간선의 경우) 간선을 방문하는데에는 O(m)의 시간이 소요된다. 따라서 총 시간 복잡도는 저렇게 계산할 수 있다.
+• DFS can be further extended to solve other graph problems (dfs의 확장 응용)
+  • Find and report a path between two given vertices : 두 정점 사이의 경로 찾기
+  • Find a cycle in the graph : 그래프에서 사이클 찾기
+dfs를 실행하면서 방문한 정점을 추적한다.
+탐색 과정에서 이미 방문한 정점을 다시 방문하게 되면 사이클이 존재한다는 것
+
   
-  
+DFS Algorithm
+• The algorithm uses a mechanism for setting and getting “labels” of vertices and edges
+
+Algorithm DFS(G)
+Input : graph G
+Output : labeling of the edges of G as discovery edges and back edges
+for all u in G.vertices()
+u.setLabel(UNEXPLORED)
+for all e in G.edges()
+e.setLabel(UNEXPLORED)
+for all v in G.vertices()
+if v.getLabel() = UNEXPLORED
+DFS(G, v)
 
 
+*레이블링 과정(주어진 데이터를 특정 범주나 그룹으로 분류하는 작업)
+dfs 알고리즘은 그래프 g의 모든 정점과 간선을 탐색하며 각 간선을 discovery edges and back edges로 분류한다.
+discovery edges : dfs 탐색 중 처음으로 방문한 정점을 연결하는 간선
+back edges : 이미 방문한 정점으로 돌아가는 간선
+
+이 알고리즘을 돌리기 전에 모든 정점과 간선은 초기화한다.
+각 정점에서 dfs를 시작한다. -> 아직 탐색되지 않은 정점에서만 dfs를 호출한다.
+이 알고리즘을 수행하면서 DISCOVERY(발견 간선) 또는 BACK(뒤로 가는 간선)으로 레이블링한다.
+
+--- 메인 알고리즘
 
 
+Algorithm DFS(G, v)
+Input graph G and a start vertex vof GOutput labeling of the edges of Gin the connected component of vas discovery edges and back edgesv.setLabel(VISITED)
+for all e in G.incidentEdges(v)
+if e.getLabel() = UNEXPLOREDw e.opposite(v)
+if w.getLabel() = UNEXPLOREDe.setLabel(DISCOVERY)
+DFS(G, w)
+else
+e.setLabel(BACK)
 
+-> 모든 정점 u와 간선 e의 레이블을 UNEXPLORED로 설정한다.
+모든 정점 v에 대해, v가 UNEXPLORED 상태라면 DFS(G, v)를 호출
+v.setLabel(VISITED)로 정점 v를 방문했음을 표시
 
+정점 v에 인접한 모든 간선 e에 대해:
+e가 UNEXPLORED 상태라면: e의 반대쪽 정점 w를 가져옵니다.
+w가 UNEXPLORED 상태라면: e를 DISCOVERY로 레이블링합니다.
+DFS(G, w)를 호출하여 정점 w에서 탐색을 계속합니다.
 
+w가 이미 방문된 상태라면: e를 BACK으로 레이블링
+--- dfs 알고리즘
 
+예시
+A - B
+| \
+C  D
 
+탐색 순서는 A, B, C, D라고 가정하겠습니다.
 
+A에서 시작:
 
+A를 VISITED로 설정합니다.
+A에 인접한 간선 AB, AC, AD를 탐색합니다.
+AB 간선 탐색:
 
+AB가 UNEXPLORED 상태이므로 B를 가져옵니다.
+B가 UNEXPLORED 상태이므로 AB를 DISCOVERY로 레이블링하고 B에서 DFS를 재귀 호출합니다.
+B에서 시작:
 
+B를 VISITED로 설정합니다.
+B에 인접한 간선 BA를 탐색합니다.
+BA가 UNEXPLORED 상태지만, A가 이미 VISITED 상태이므로 BA를 BACK으로 레이블링합니다.
+A로 돌아와서 다음 간선 탐색:
 
+A로 돌아와서 다음 간선 AC를 탐색합니다.
+AC가 UNEXPLORED 상태이므로 C를 가져옵니다.
+C가 UNEXPLORED 상태이므로 AC를 DISCOVERY로 레이블링하고 C에서 DFS를 재귀 호출합니다.
+C에서 시작:
+
+C를 VISITED로 설정합니다.
+C에 인접한 간선 CA를 탐색합니다.
+CA가 UNEXPLORED 상태지만, A가 이미 VISITED 상태이므로 CA를 BACK으로 레이블링합니다.
+A로 돌아와서 마지막 간선 탐색:
+
+A로 돌아와서 마지막 간선 AD를 탐색합니다.
+AD가 UNEXPLORED 상태이므로 D를 가져옵니다.
+D가 UNEXPLORED 상태이므로 AD를 DISCOVERY로 레이블링하고 D에서 DFS를 재귀 호출합니다.
+D에서 시작:
+
+D를 VISITED로 설정합니다.
+D에 인접한 간선 DA를 탐색합니다.
+DA가 UNEXPLORED 상태지만, A가 이미 VISITED 상태이므로 DA를 BACK으로 레이블링합니다.
