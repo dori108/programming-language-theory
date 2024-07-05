@@ -1,0 +1,120 @@
+#include<iostream>
+using namespace std;
+int main() {
+	cout << "Hello World" << endl;
+	return 0;
+}
+
+
+1.#include<iostream>
+헤더파일을 포함 시키는 것
+
+2. using namespace std;
+변수, 함수 이름 등을 각각 구분해주는 것. 네임 스페이스를 따로 만들기 때문에 같은 변수명, 함수명도 여러번 사용이 가능해진다.
+식별자를 사용하는 두 가지 방법
+- std::cout << "Hello World!" << std::endl;
+- using namespace std;	
+  cout << "Hello World!" << endl;
+
+3. int main() {}
+메인 함수 정의 
+
+4. cout << "Hello World" << endl;
+출력하는 문장
+입력은 
+cin>>"">>endl;을 이용한다.
+
+5. return 0;
+작업이 끝났음을 알려주는 부분
+
+
+변수와 자료형
+변수 선언법
+
+1. int i;
+i =100;
+
+2. int i { 100 };		// int i=100;과 동일하다. 
+
+3. int i=100;
+
+4. string s { "hello" }; //string s="hello";과 동일
+
+
+자료형의 바이트 수 
+int float long : 4
+short : 2
+bool char: 1 
+long long double : 8
+long double : 8 (double과 같거나 크다. 4바이트가 더해지는 개념이 아니야)
+
+부동 소수점 때문에 int와 float는 엄밀히 크기 차이가 존재한다.
+
+
+문자열 연습
+string s1 ="good";
+string s2 "bad";
+bool b = (s1 == s2); // true
+
+string s1 = "사과";
+string s2;
+
+s2 = s1 +""+to string(10)+"개";
+cout<<s2<<endl;
+
+*to_string 함수는 정수를 문자열로 변환해 줍니다.
+그래서 ()안에 숫자가 들어가면 "숫자" 형태로 변형이 된다.
+
+
+기호 상수
+
+const double TAX_RATE = 0.25;	// 기호 상수 선언
+int income=1000;
+income = income - TAX_RATE * income;
+
+상수를 사용하기 위해서 const 사용. 네가 배운 매크로와 같아.
+수정을 용이하게하려고 상수를 통해 정의한다. 데이터 값 자체에 의미를 부여함. 따라서 자료형 없이 사용된다.
+
+비교점
+일반 상수: const 키워드를 사용하여 특정 데이터 타입과 함께 정의됩니다.
+기호 상수: 매크로(#define)를 사용하여 데이터 타입 없이 정의됩니다.
+
+일반 상수: 특정 범위 내에서 사용됩니다. 예를 들어, 블록 스코프 내에서 정의되면 그 블록 내에서만 유효합니다.
+기호 상수: 파일 전체에서 사용되며, 파일 간 공유가 가능하지만, 매크로의 범위는 전처리기의 영향을 받습니다.
+
+
+자동 타입 추론
+auto 키워드를 사용하면 저절로 타입을 추론해서 이용할 수 있게 해준다. 
+auto d =1.0;
+
+auto add(int x, int y){
+
+  return x+y;
+
+}
+
+int main (){
+
+  auto sum = add(5,6);
+  return 0;
+
+}
+
+
+출력
+int i;
+float f;
+
+cout << i;
+cout << f;
+
+두 변수 모두 정수, 실수 형식으로 출력된다. 자료형에 따름.
+
+
+수식과 연산자
+
+* : 곱하기
+% : 나머지
+/ : 나누기
+
+
